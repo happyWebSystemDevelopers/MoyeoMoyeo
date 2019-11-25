@@ -1,0 +1,26 @@
+{
+  "name": "MoyeoMoyeo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/happyWebSystemDevelopers/MoyeoMoyeo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/happyWebSystemDevelopers/MoyeoMoyeo/issues"
+  },
+  "homepage": "https://github.com/happyWebSystemDevelopers/MoyeoMoyeo#readme",
+  "dependencies": {
+    "es6-promise": "^4.2.8",
+    "request": "^2.88.0",
+    "vuex": "^3.1.2",
+    "xml-js": "^1.6.11"
+  }
+}
