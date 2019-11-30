@@ -2,17 +2,31 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Login v-if="!sessionCheck"/>
+    <span> {{ sessionCheck }}</span>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import Login from './components/Login.vue'
+import axios from 'axios';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    HelloWorld,
+    Login,
+  },
+  data() {
+    return {
+      sessionCheck : false ,
+    }
+  },
+  async beforeCreate () {
+      const result = await axios.get("/login");
+      this.sessionCheck = result.data.logined;
+  }, 
 }
 </script>
 
