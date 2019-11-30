@@ -3,6 +3,7 @@ import App from './App.vue'
 import Vuex from 'vuex'
 import 'es6-promise/auto'
 import axios from 'axios'
+import router from './router'
 
 Vue.use(Vuex)
 Vue.config.productionTip = false
@@ -17,4 +18,5 @@ const store = new Vuex.Store({
 
 new Vue({
   render: h => h(App),
+  router,
 }).$mount('#app')
