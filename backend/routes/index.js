@@ -3,12 +3,71 @@ var router = express.Router();
 const request=require('request');//api 위치이동
 const convert=require('xml-js');//api 위치이동
 /* GET home page. */
+const session = require('express-session');
 
-router.get('/', function(req, res, next) {
+var userList = new Array();
+
+/*router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
+});*/
+
+var loginData = {
+    id : "nahyun",
+    pwd : "1212",
+    nickname : "nahyun"
+}
+router.use(session({
+    key: 'sid',//세션의 키값
+    secret: 'secret',//세션의 비밀 키
+    resave: 'false', //세션을 항상 저장할지 여부 false권장
+    saveUninitialized: true,
+    cookie:{
+      maxAge: 24000* 60* 60
+    }
+  }));
+
+//userList.push(nahyun);
+
+router.get("/login", function(req, res, next) {
+    var sess = req.session;
+    console.log(sess);
+    res.send(sess);
+    //res.redirect("/");
+    //res.render('index', { title: 'Express' });
 });
 
-const host="http://api.visitkorea.or.kr/openapi/service/rest";
+router.post("/login",function(req,res,err){
+    var sess;
+    sess = req.session;
+    var userInfo = {
+        id : req.body.id,
+        pwd: req.body.pwd,
+    };
+    if(loginData.id == userInfo.id && userInfo.pwd == loginData.pwd){
+        console.log("로그인 성공");
+        sess.logined = true;
+        sess.name = userInfo.id;
+        console.log(sess);
+        res.send(sess);
+    }
+    else {
+            console.log("로그인 실패");
+            sess.logined = false;
+            res.send(sess);
+            //res.end();
+    }   
+});
+
+router.delete("/logout",function(req,res,err) {
+    req.session.destroy();
+    res.clearCookie('sid');
+    console.log("logout success");
+    console.log(req.session);
+    res.redirect("/");
+})
+
+
+/*const host="http://api.visitkorea.or.kr/openapi/service/rest";
 const key="pmn7BctlsDTxIuZOBYokKT0uHd5zga1LuVcirDgJinx12X%2Fx2vRQ3a2jBGBl0Zb%2FEuE0cg3ipKGCyBQQIuotgw%3D%3D";
 const requestUrl=`${host}/EngService/serviceKey=${key}&numOfRows=10&pageNo=10&MobileOS=ETC&MobileApp=AppTest&listYN=Y&_type=json`;
 request.get(requestUrl,(err,res,body)=>{//문화정보 api위치 이동하기
@@ -32,7 +91,7 @@ request.get(requestUrl,(err,res,body)=>{//문화정보 api위치 이동하기
         //     }
         // }
     }
-})
+})*/
 
 
 

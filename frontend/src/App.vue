@@ -10,10 +10,10 @@
       <router-link to="/"> 
         <img id="logo" alt="Vue logo" src="./assets/MoyeoMoyeo.png">
       </router-link>
-      <div id="user">
+      <div v-if = "sessionCheck" id="user">
         <span style="color:#909090; font-size:13px; ">My page |</span>
         
-         <span style="color:#909090; font-size:13px; margin-right:12px;"> Logout </span>
+        <button style="color:#909090; font-size:13px; margin-right:12px; background-color : white; border : 1px solid white;" v-on:click="logout"> Logout </button>
         <span style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> Yeong In Park </span>
       <img id="userImg" src="./assets/userImage.png">
       </div>
@@ -59,16 +59,28 @@
     </div>
     <div id="rightView">
       
-     
       <hr align="center" style="border: solid 3px #ff7473; margin-left: 40px; margin-right: 40px;">
 
     </div>
+    <br>
+    <br>
+    <div style= "text-align : center;">
+    <img src ="./assets/logoutSuccess.png" v-if="logoutCheck" style = "heigth: 100px; width: 300px;">
+    </div>
+    <Login id = "login" v-if="!sessionCheck"/>
+    <Main v-if ="sessionCheck && !logoutCheck"/>
     </div>
     
   </div>
 </template>
 
 <script>
+import Login from './components/Login.vue'
+import axios from 'axios'
+import Main from './view/Main.vue'
+
+
+
 window.onload=function(){
   document.querySelector(".menuToggle").addEventListener("click", function(){
     document.querySelector(".sample-class").classList.toggle("menuon");
@@ -79,10 +91,32 @@ window.onload=function(){
   )
   
 }
-
 export default {
   name: 'app',
- 
+  components : {
+    Login,
+    Main,
+  },
+  data() {
+    return {
+      sessionCheck : false,
+      logoutCheck : false,
+    }
+  },
+  async beforeCreate() {
+    const result = await axios.get("/login");
+    this.sessionCheck = result.data.logined;
+  }, 
+  methods : {
+    logout : function() {
+      axios.delete("/logout");
+      this.logoutCheck = true;
+      alert("Logout Success!");
+      setTimeout(()=> {
+        location.reload();
+    },3000);    
+    }
+  }
 }
 </script>
 
@@ -201,6 +235,9 @@ a:hover {
   #menuImg{
     width: 25px;
     height: 25px;
+  }
+  #login{
+    text-align : center;
   }
 
 </style>
