@@ -21,7 +21,7 @@
         <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px;">Login</button>
         <br>
         <br>
-        <button class="signinButton" style="background-color : #77919d; border: 1px solid #77919d;">Sign In</button>
+        <button class="signupButton" style="background-color : #77919d; border: 1px solid #77919d;">Sign Up</button>
     </div>
     <div v-if = "successLogin && !failLogin">
         <img src="../assets/welcome.png" style ="height: 80px; width: 350px">
@@ -90,7 +90,7 @@ export default {
                         setTimeout(()=> {
                             location.reload();
                            //alert("hello");
-                        },1500);    
+                        },2000);    
                     }
                         
                 });
