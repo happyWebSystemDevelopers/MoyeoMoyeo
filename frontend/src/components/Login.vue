@@ -2,20 +2,20 @@
     <div class="login">
         <img v-if ="!successLogin" id ="loginLogo" src = "../assets/Login.png" style="height: 40px; width:100px;"/>
         <br>
-        <span v-if= "!Logintimes && !successLogin" style="color : #df405a;">Login failure {{loginCounter}} times!</span>
+        <span v-if="!Logintimes && !successLogin" style="color : #df405a;">Login failure {{loginCounter}} times!</span>
         <br>
         <span v-if="failLogin && !Logintimes" style="color : #df405a;">You can Login after 30 seconds!</span>
         <br>
         <br>
-        <div v-if = "!successLogin && !failLogin">
+        <div v-if ="!successLogin && !failLogin">
         <span class="logintext">ID</span>
         <br>
-        <input type="text" v-model ="userId" style="border-right:0px; border-top:0px; boder-left:0px; boder-bottom:1px;" required>
+        <input type="text" @keyup.enter="login" v-model ="userId" style="border-right:0px; border-top:0px; boder-left:0px; boder-bottom:1px;" required>
         <br>
         <br>
         <span class ="logintext">Password</span>
         <br>
-        <input type="password" v-model="password" style="border-right:0px; border-top:0px; boder-left:0px; boder-bottom:1px;" required>
+        <input type="password" @keyup.enter="login" v-model="password" style="border-right:0px; border-top:0px; boder-left:0px; boder-bottom:1px;" required>
         <br>
         <br>
         <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px;">Login</button>
@@ -23,7 +23,7 @@
         <br>
         <button class="signinButton" style="background-color : #77919d; border: 1px solid #77919d;">Sign In</button>
     </div>
-    <div v-if = "successLogin && !failLogin">
+    <div v-if ="successLogin && !failLogin">
         <img src="../assets/welcome.png" style ="height: 80px; width: 350px">
         <br>
         <img src="../assets/MoyeoMoyeo.png" style ="height: 110px; width: 350px">
@@ -48,6 +48,7 @@ var LoginTimeCheck = true;
 var count = 0;*/
 
 export default {
+    
         name: 'login',
         data() {
             return {
@@ -106,7 +107,7 @@ export default {
     background-color: #47b8e0;
     border: 1px solid #47b8e0;
     margin-right : 3px;
-},
+}
 button:hover{
     background-color: white;
 }

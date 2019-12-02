@@ -14,7 +14,7 @@
         <span style="color:#909090; font-size:13px; ">My page |</span>
         
         <button style="color:#909090; font-size:13px; margin-right:12px; background-color : white; border : 1px solid white;" v-on:click="logout"> Logout </button>
-        <span style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> Yeong In Park </span>
+        <span id="logoutClick" style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> Yeong In Park </span>
       <img id="userImg" src="./assets/userImage.png">
       </div>
     </div>
@@ -190,7 +190,9 @@ a:hover {
      background-position: 100% 100%;
      padding-bottom: 3px;
      color:#ff7473;
+     transition: color 0.5s;
   }
+
 #sideTitle{
   text-align: center;
   font-weight:bold;
