@@ -2,7 +2,7 @@
   <div id="app">
     <div id="menu">
       <div class="menuToggle">
-       <img id="menuImg" src="./assets/menu.png">
+       <img v-if="sessionCheck" id="menuImg" src="./assets/menu.png">
       </div>
     </div>
     <div id="titie">
@@ -10,7 +10,7 @@
       <router-link to="/"> 
         <img id="logo" alt="Vue logo" src="./assets/MoyeoMoyeo.png">
       </router-link>
-      <div v-if = "sessionCheck" id="user">
+      <div v-if="sessionCheck" id="user">
         <span style="color:#909090; font-size:13px; ">My page |</span>
         
         <button style="color:#909090; font-size:13px; margin-right:12px; background-color : white; border : 1px solid white;" v-on:click="logout"> Logout </button>
@@ -68,7 +68,7 @@
     <img src ="./assets/logoutSuccess.png" v-if="logoutCheck" style = "heigth: 100px; width: 300px;">
     </div>
     <Login id = "login" v-if="!sessionCheck"/>
-    <Main v-if ="sessionCheck && !logoutCheck"/>
+    <router-view v-if="sessionCheck"></router-view>
     </div>
     
   </div>
@@ -77,7 +77,7 @@
 <script>
 import Login from './components/Login.vue'
 import axios from 'axios'
-import Main from './view/Main.vue'
+
 
 
 
@@ -87,15 +87,18 @@ window.onload=function(){
   })
   document.querySelector("#menux").addEventListener("click", function(){
     document.querySelector(".sample-class").classList.toggle("menuon");
-  }
-  )
+  })
+  document.querySelector("#sideText").addEventListener("click", function(){
+    document.querySelector(".sample-class").classList.toggle("menuon");
+  })
+  
   
 }
 export default {
   name: 'app',
   components : {
     Login,
-    Main,
+   
   },
   data() {
     return {
@@ -114,7 +117,10 @@ export default {
       alert("Logout Success!");
       setTimeout(()=> {
         location.reload();
-    },3000);    
+    },3000);
+      this.$router.push({
+        name: 'main',
+      });
     }
   }
 }
