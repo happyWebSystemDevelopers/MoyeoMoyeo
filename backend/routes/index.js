@@ -2,8 +2,12 @@ var express = require('express');
 var router = express.Router();
 const request=require('request');//api 위치이동
 const convert=require('xml-js');//api 위치이동
-/* GET home page. */
 const session = require('express-session');
+
+var userList = new Array();
+/* GET home page. */
+
+
 
 var indexCounter = 0;
 var userList = new Array();
@@ -11,6 +15,7 @@ var userList = new Array();
 /*router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });*/
+
 
 var loginData = {
     id : "nahyun",
@@ -79,6 +84,10 @@ router.post("/freeboards", function(req,res,err){
 
 }); // 게시글 올리는거 
 
+
+
+=======
+});
 
 
 

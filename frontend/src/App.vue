@@ -2,7 +2,7 @@
   <div id="app">
     <div id="menu">
       <div class="menuToggle">
-       <img v-if="sessionCheck" id="menuImg" src="./assets/menu.png">
+       <img id="menuImg" src="./assets/menu.png">
       </div>
     </div>
     <div id="titie">
@@ -10,7 +10,7 @@
       <router-link to="/"> 
         <img id="logo" alt="Vue logo" src="./assets/MoyeoMoyeo.png">
       </router-link>
-      <div v-if="sessionCheck" id="user">
+      <div v-if = "sessionCheck" id="user">
         <span style="color:#909090; font-size:13px; ">My page |</span>
         
         <button style="color:#909090; font-size:13px; margin-right:12px; background-color : white; border : 1px solid white;" v-on:click="logout"> Logout </button>
@@ -34,23 +34,32 @@
      
         <div id="sideText">
         <router-link to="/freeboard">
-        Free Board
+        <span>Free Board</span>
         </router-link>
         <hr/>
+        <div id="dropdown">
         <router-link to="/gathering">
-        Gathering Board
+        <span id="dropbtn">Gathering Board</span>
         </router-link>
+        <div id="dropdown-content">
+          <router-link to="/gathering">- major</router-link>
+          <br/>
+          <router-link to="/gathering">- hihi</router-link>
+          <br/>
+          <router-link to="/gathering">- hello</router-link>
+        </div>
+        </div>
         <hr/>
         <router-link to="/cultural">
-        Cultural Events
+        <span>Cultural Events</span>
         </router-link>
         <hr/>
         <router-link to="/search">
-        Search Freind
+        <span>Search Freind</span>
         </router-link>
         <hr/>
         <router-link to="/intro">
-        Site Introduction
+        <span>Site Introduction</span>
         </router-link>
       </div>
       </div>
@@ -68,7 +77,8 @@
     <img src ="./assets/logoutSuccess.png" v-if="logoutCheck" style = "heigth: 100px; width: 300px;">
     </div>
     <Login id = "login" v-if="!sessionCheck"/>
-    <router-view v-if="sessionCheck"></router-view>
+    
+    <router-view v-if ="sessionCheck"></router-view>
     </div>
     
   </div>
@@ -87,11 +97,12 @@ window.onload=function(){
   })
   document.querySelector("#menux").addEventListener("click", function(){
     document.querySelector(".sample-class").classList.toggle("menuon");
-  })
+  }
+  )
   document.querySelector("#sideText").addEventListener("click", function(){
     document.querySelector(".sample-class").classList.toggle("menuon");
   })
-  
+
   
 }
 export default {
@@ -117,10 +128,7 @@ export default {
       alert("Logout Success!");
       setTimeout(()=> {
         location.reload();
-    },3000);
-      this.$router.push({
-        name: 'main',
-      });
+    },3000);    
     }
   }
 }
@@ -247,5 +255,30 @@ a:hover {
   #login{
     text-align : center;
   }
+  #dropdown-content {
+  display: none;
+  font-size: 13px;
+  line-height: 40px;
+  font-weight:bold;
+  height: 0%;
+  min-width: 160px;
+ 
+  z-index: 1;
+  margin-left: 10px;
+  
+  transition:display 2s;
+}
+  #dropdown:hover #dropdown-content {
+  display: block;
+ 
+}
+#dropdown:hover #dropbtn {
+ color:#ff7473;
+ transition: color 0.5s;
+}
 
+#dropdown:hover #dropdown-content a:hover {
+color: #aaa9ac;
+transition: color 0.5s;
+}
 </style>

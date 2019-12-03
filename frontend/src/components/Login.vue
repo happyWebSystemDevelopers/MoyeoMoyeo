@@ -1,5 +1,6 @@
 <template>
     <div class="login">
+
         <img v-if ="!successLogin" id ="loginLogo" src = "../assets/Login.png" style="height: 40px; width:100px;"/>
         <br>
         <span v-if="!Logintimes && !successLogin" style="color : #df405a;">Login failure {{loginCounter}} times!</span>
@@ -30,39 +31,32 @@
     </div>
     <div v-if = "failLogin">
         <img src="../assets/loginWait.png" style ="height: 150px; width: 350px">
+
     </div>
     </div>
 </template>
 <script>
 import axios from 'axios';
 
-/*async function Logincounterfunc() {
-    await setTimeout(function() {
-        alert("You can Login!");
-    },30000);
-}*/
-
-/*var successCheck = false;
-var failCheck = false;
-var LoginTimeCheck = true;
-var count = 0;*/
 
 export default {
-    
         name: 'login',
         data() {
             return {
                 userId:'',
                 password:'',
                 successLogin : false,
+
                 failLogin : false,
                 waitLogin : "",
                 loginCounter : 0,
                 Logintimes : true,
+
             }
         },
         methods : {
             login : function () {
+
                 if(this.userId == "" || this.password == "")
                 {
                     alert("Please enter your ID or Password!");
