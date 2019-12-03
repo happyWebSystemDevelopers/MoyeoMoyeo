@@ -1,3 +1,4 @@
+
 <template>
     <section id="mainboard">
         <ul id="boardsInfo">
@@ -95,3 +96,4 @@
     }
 
 </style>
+

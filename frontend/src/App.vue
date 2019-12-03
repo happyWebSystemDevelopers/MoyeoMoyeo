@@ -34,23 +34,32 @@
      
         <div id="sideText">
         <router-link to="/freeboard">
-        Free Board
+        <span>Free Board</span>
         </router-link>
         <hr/>
+        <div id="dropdown">
         <router-link to="/gathering">
-        Gathering Board
+        <span id="dropbtn">Gathering Board</span>
         </router-link>
+        <div id="dropdown-content">
+          <router-link to="/gathering">- major</router-link>
+          <br/>
+          <router-link to="/gathering">- hihi</router-link>
+          <br/>
+          <router-link to="/gathering">- hello</router-link>
+        </div>
+        </div>
         <hr/>
         <router-link to="/cultural">
-        Cultural Events
+        <span>Cultural Events</span>
         </router-link>
         <hr/>
         <router-link to="/search">
-        Search Freind
+        <span>Search Freind</span>
         </router-link>
         <hr/>
         <router-link to="/intro">
-        Site Introduction
+        <span>Site Introduction</span>
         </router-link>
       </div>
       </div>
@@ -68,7 +77,8 @@
     <img src ="./assets/logoutSuccess.png" v-if="logoutCheck" style = "heigth: 100px; width: 300px;">
     </div>
     <Login id = "login" v-if="!sessionCheck"/>
-    <Main v-if ="sessionCheck && !logoutCheck"/>
+    
+    <router-view v-if ="sessionCheck"></router-view>
     </div>
     
   </div>
@@ -77,7 +87,7 @@
 <script>
 import Login from './components/Login.vue'
 import axios from 'axios'
-import Main from './view/Main.vue'
+
 
 
 
@@ -95,7 +105,7 @@ export default {
   name: 'app',
   components : {
     Login,
-    Main,
+   
   },
   data() {
     return {
@@ -241,5 +251,30 @@ a:hover {
   #login{
     text-align : center;
   }
+  #dropdown-content {
+  display: none;
+  font-size: 13px;
+  line-height: 40px;
+  font-weight:bold;
+  height: 0%;
+  min-width: 160px;
+ 
+  z-index: 1;
+  margin-left: 10px;
+  
+  transition:display 2s;
+}
+  #dropdown:hover #dropdown-content {
+  display: block;
+ 
+}
+#dropdown:hover #dropbtn {
+ color:#ff7473;
+ transition: color 0.5s;
+}
 
+#dropdown:hover #dropdown-content a:hover {
+color: #aaa9ac;
+transition: color 0.5s;
+}
 </style>
