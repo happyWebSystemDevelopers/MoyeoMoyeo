@@ -99,6 +99,10 @@ window.onload=function(){
     document.querySelector(".sample-class").classList.toggle("menuon");
   }
   )
+  document.querySelector("#sideText").addEventListener("click", function(){
+    document.querySelector(".sample-class").classList.toggle("menuon");
+  })
+
   
 }
 export default {
@@ -277,4 +281,6 @@ a:hover {
 color: #aaa9ac;
 transition: color 0.5s;
 }
+
 </style>
+

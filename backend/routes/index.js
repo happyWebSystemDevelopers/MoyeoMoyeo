@@ -2,14 +2,20 @@ var express = require('express');
 var router = express.Router();
 const request=require('request');//api 위치이동
 const convert=require('xml-js');//api 위치이동
-/* GET home page. */
 const session = require('express-session');
 
+var userList = new Array();
+/* GET home page. */
+
+
+
+var indexCounter = 0;
 var userList = new Array();
 
 /*router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });*/
+
 
 var loginData = {
     id : "nahyun",
@@ -63,8 +69,26 @@ router.delete("/logout",function(req,res,err) {
     res.clearCookie('sid');
     console.log("logout success");
     console.log(req.session);
-    res.redirect("/");
-})
+    res.redirect("..");
+});
+
+/*router.get("/freeboards", function(req,res,err){ // 자유게시판 글 가져오는거
+    //가져와서 글 객체 만든다음에 parse써서 하나하나 넣어주는 식으로 하자.
+});
+
+router.get("/freeboards/:idx", function(req,res,err) {
+
+}); //게시글 가져오는거 // 여기도 게시글 객체를 만들어서 
+
+router.post("/freeboards", function(req,res,err){
+
+}); // 게시글 올리는거 
+
+
+
+=======
+});
+
 
 
 /*const host="http://api.visitkorea.or.kr/openapi/service/rest";

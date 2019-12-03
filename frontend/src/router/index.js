@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../view/Main.vue'
@@ -6,6 +7,8 @@ import Gathering from '../view/GatheringBoard.vue'
 import Cultural from '../view/CulturalEvent.vue'
 import Search from '../view/SearchFreind.vue'
 import Intro from '../view/Intro.vue'
+import FreeDetail from '../view/freeBoardDetail.vue'
+
 
 Vue.use(VueRouter)
 
@@ -40,6 +43,12 @@ const routes = [
     name: 'intro',
     component: Intro
   },
+  {
+    path : '/freeboard/:idx',
+    name : 'freeBoardDetail',
+    component : FreeDetail
+    
+  }
   
   
 ]
