@@ -8,6 +8,8 @@ import Cultural from '../view/CulturalEvent.vue'
 import Search from '../view/SearchFreind.vue'
 import Intro from '../view/Intro.vue'
 import FreeDetail from '../view/freeBoardDetail.vue'
+import GatheringDetail from '../view/GatheringBoardDetail.vue'
+import EventDetail from '../view/CulturalEvnentDetail'
 
 
 Vue.use(VueRouter)
@@ -47,9 +49,17 @@ const routes = [
     path : '/freeboard/:idx',
     name : 'freeBoardDetail',
     component : FreeDetail
-    
+  },
+  {
+    path : '/gatheringboard/:idx',
+    name : 'gatheringBoardDetail',
+    component : GatheringDetail
+  },
+  {
+    path : '/cultural/:idx',
+    name : 'culturalEventDetail',
+    component : EventDetail
   }
-  
   
 ]
 
