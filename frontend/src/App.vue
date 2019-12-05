@@ -127,8 +127,9 @@ export default {
       this.logoutCheck = true;
       alert("Logout Success!");
       setTimeout(()=> {
-        location.reload();
-    },3000); 
+        location.replace('/'); //로그아웃하면 메인으로 가게 수정. (기존엔 free board 등에서 로그아웃하면 404 떴음)
+        //location.reload();
+    },3000);    
     }
   }
 }
