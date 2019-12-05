@@ -151,11 +151,18 @@ export default {
 
 }
 .viewChange{
+    padding-top: 2px;
     margin-left: 10px;
+    background-color : white;
+    border : 1.2px solid #4f953b;
+    border-radius: 7px;
+    color : #4f953b;
+    height : 30px;
+    width : 30px;
 }
 .btnImg{
     width: 15px;
-    height: 15px;
+    height: 20px;
 }
 .linedBoard{
     margin-left: 140px;
