@@ -11,7 +11,7 @@ import FreeDetail from '../view/freeBoardDetail.vue'
 import writeFreeBoard from '../view/WriteFreeBoard'
 import GatheringDetail from '../view/GatheringBoardDetail.vue'
 import EventDetail from '../view/CulturalEvnentDetail'
-
+import SignUp from '../view/Signup.vue'
 
 
 Vue.use(VueRouter)
@@ -66,6 +66,11 @@ const routes = [
     path : '/cultural/:idx',
     name : 'culturalEventDetail',
     component : EventDetail
+  },
+  {
+    path:'/signup',
+    name :'signUp',
+    component : SignUp
   }
   
 ]

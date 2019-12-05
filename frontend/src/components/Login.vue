@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="login">
 
         <img v-if ="!successLogin" id ="loginLogo" src = "../assets/Login.png" style="height: 40px; width:100px;"/>
@@ -22,7 +22,7 @@
         <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px; font-size: 20px;">Login</button>
         <br>
         <br>
-        <button class="signupButton" style="background-color : #77919d; border: 1px solid #77919d; font-size: 15px; width: 70px; height:30px;">Sign Up</button>
+            <router-link to="/signup" class="signupButton" style="background-color : #77919d; border: 1px solid #77919d; font-size: 15px; width: 70px; height:30px;">Sign Up</router-link>
     </div>
     <div v-if ="successLogin && !failLogin">
         <img src="../assets/welcome.png" style ="height: 80px; width: 350px">
