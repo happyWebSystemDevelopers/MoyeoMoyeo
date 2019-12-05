@@ -16,7 +16,7 @@
             <img v-if="!invalidID" class = "checkIMG" src='../assets/check-mark-icon-png.jpg'>
             <br>
             <div class="title">Password</div>
-            <input type="text" v-if="hidePW" v-model="user.password"
+            <input type="password" v-if="hidePW" v-model="user.password"
                    id="password1" style="width: 100%; height: 30px; border-radius: 4px;" required/>
             <input type="text" v-if="!hidePW"  v-model="user.password" id="password2" style="width: 100%; height: 30px; border: 2px solid red;
                  border-radius: 4px;" required/>
@@ -26,7 +26,7 @@
             <br>
 
             <div class="title">Check Password</div>
-            <input type="text" v-model="checkPassword"
+            <input type="password" v-model="checkPassword"
                    id="checkPassword" required/>
             <img v-if="!checkingPassword" class = "checkIMG" src='../assets/check-mark-icon-png.jpg' >
             <br>
@@ -77,10 +77,10 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
 
 
-    export default{
+    export default {
         name: 'signup',
         // components:{
         //   Login
@@ -245,7 +245,6 @@
                 return this.validationOfPassword;
             }
         }
-
     }
 </script>
 <style scoped>

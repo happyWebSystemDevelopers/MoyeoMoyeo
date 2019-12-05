@@ -1,6 +1,5 @@
 
 <template>
-    <!--<div v-if ="sessionCheck">-->
     <section id="mainboard">
         <ul id="boardsInfo"> <!--게시판 전체 정보 담는 박스-->
             <div class="boards"> <!--boards Info랑 역할 같음. 혹시 몰라서 추가해둠. 당장 하는 역할 X.-->
@@ -36,7 +35,6 @@
             </div>
         </ul>
     </section>
-   
 </template>
 <script>
 import axios from 'axios';
