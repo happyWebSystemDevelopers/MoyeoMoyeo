@@ -65,7 +65,7 @@ router.post("/api/login",function(req,res,err){
     }   
 });
 
-router.delete("/logout",function(req,res,err) {
+router.delete("/api/logout",function(req,res,err) {
     req.session.destroy();
     res.clearCookie('sid');
     console.log("logout success");

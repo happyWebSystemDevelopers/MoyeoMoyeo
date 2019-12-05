@@ -78,7 +78,7 @@
     </div>
     <Login id = "login" v-if="!sessionCheck"/>
     
-    <router-view v-if ="sessionCheck"></router-view>
+    <router-view v-if ="sessionCheck && !logoutCheck"></router-view>
     </div>
     
   </div>
@@ -120,12 +120,12 @@ export default {
   }, 
   methods : {
     logout : function() {
-      axios.delete("/logout");
+      axios.delete("/api/logout");
       this.logoutCheck = true;
       alert("Logout Success!");
       setTimeout(()=> {
         location.replace('/'); //로그아웃하면 메인으로 가게 수정. (기존엔 free board 등에서 로그아웃하면 404 떴음)
-        //location.reload();
+        location.reload();
     },3000);    
     }
   }

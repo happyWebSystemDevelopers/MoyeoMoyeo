@@ -16,7 +16,7 @@
             <img v-if="!invalidID" class = "checkIMG" src='../assets/check-mark-icon-png.jpg'>
             <br>
             <div class="title">Password</div>
-            <input type="text" v-if="hidePW" v-model="user.password"
+            <input type="password" v-if="hidePW" v-model="user.password"
                    id="password1" style="width: 100%; height: 30px; border-radius: 4px;" required/>
             <input type="text" v-if="!hidePW"  v-model="user.password" id="password2" style="width: 100%; height: 30px; border: 2px solid red;
                  border-radius: 4px;" required/>
@@ -26,7 +26,7 @@
             <br>
 
             <div class="title">Check Password</div>
-            <input type="text" v-model="checkPassword"
+            <input type="password" v-model="checkPassword"
                    id="checkPassword" required/>
             <img v-if="!checkingPassword" class = "checkIMG" src='../assets/check-mark-icon-png.jpg' >
             <br>
@@ -77,16 +77,10 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
 
 
-    const instance = axios.create({
-        baseURL: 'http://localhost:3000',
-        timeout: 1000,
-        headers: {'X-Custom-Header': 'foobar'}
-    });
-
-    export default{
+    export default {
         name: 'signup',
         // components:{
         //   Login
@@ -132,11 +126,11 @@
             }
         },
         created: function(){
-            instance.get('/api/universityList/name')
+            axios.get('/api/universityList/name')
                 .then((response) => {
                     this.uniname = response.data;
                 });
-            instance.get('/api/universityList/country')
+            axios.get('/api/universityList/country')
                 .then((response)=>{
                     this.countryname = response.data;
                 })
@@ -148,7 +142,7 @@
             // },
             onChange(event) {
                 var UNAME= event.target.value;
-                instance.get('/api/universityList/nameindex/'+UNAME)
+                axios.get('/api/universityList/nameindex/'+UNAME)
                     .then((response)=>{
                         this.uniindex = response.data;
                         // this.uniindex = response.data;
@@ -159,7 +153,7 @@
             onChange1(event){
                 var UNAME = this.user.universityName;
                 var UNAMEINDEX = event.target.value;
-                instance.get('/api/universityList/major/'+UNAME+'/'+UNAMEINDEX)
+                axios.get('/api/universityList/major/'+UNAME+'/'+UNAMEINDEX)
                     .then((response)=>{
                         this.unimajor = response.data;
                         this.user.universityIndex = event.target.value;
@@ -185,7 +179,7 @@
                         this.hidePW = false;
                     }
                     else{
-                        instance.post('/api/universityList/users', {
+                        axios.post('/api/universityList/users', {
                                 identity:this.user.identity,
                                 name:this.user.name,
                                 password:this.user.password,
@@ -214,7 +208,7 @@
                 this.okID = true;
                 var ID = this.user.identity;
                 var checkIDIndex = '';
-                instance.get('/api/universityList/checkID/'+ID)
+                axios.get('/api/universityList/checkID/'+ID)
                     .then((response)=>{
                         checkIDIndex = response.data;
                     });
@@ -229,7 +223,7 @@
                 this.okNickname = true;
                 var NICKNAME = this.user.nickname;
                 var checkNickIndex = '';
-                instance.get('/api/universityList/checkNICK/' + NICKNAME)
+                axios.get('/api/universityList/checkNICK/' + NICKNAME)
                     .then((response)=>{
                         checkNickIndex = response.data;
                     });
@@ -251,7 +245,6 @@
                 return this.validationOfPassword;
             }
         }
-
     }
 </script>
 <style scoped>
