@@ -53,7 +53,7 @@
 </template>
 <script>
 
-//import axios from 'axios';
+import axios from 'axios';
 //freeboard를 DB에서 가져올 때 글쓴이랑 이메일이랑 제목을 가져와서 일단 보여주도록
 
 var freeBoardExample = [{
@@ -113,12 +113,13 @@ export default {
             if(title.length>25) return title.substring(0,25)+"...";
             else return title;
         }
-    }
-    /*async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
-        const result = axios.get("/freeboards");
+    },
+    async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
+        const result = axios.get("/freeboard");
         this.freeBoards = result;
-    }*/
-   
+        const loginresult = await axios.get("/login");
+        this.sessionCheck = loginresult.data.logined;
+    }
 }
 </script>
 <style>
