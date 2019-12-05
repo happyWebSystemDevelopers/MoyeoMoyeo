@@ -3,14 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var CORS = require('cors');
+
+var app = express();
+app.use(CORS());
+
 const session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mainRouter = require('./routes/mainBoard');
+
+var universityRouter = require('./routes/university');
+
 var freeBoardrouter = require('./routes/freeboard');
 var bodyParser = require('body-parser');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +37,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/main', mainRouter);
+
+app.use('/api/universityList', universityRouter);
 app.use('/freeboard',freeBoardrouter);
 
 

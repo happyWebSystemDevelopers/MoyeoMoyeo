@@ -8,9 +8,13 @@ module.exports =( function () {
                 host: '127.0.0.1',
                 port: 3306,
                 user: 'root',   
-                password: 'sk13465212!',
+
+                password: '3681',
+
                 database: 'university_list'  
             })
         }
     }
+
 })();
+
