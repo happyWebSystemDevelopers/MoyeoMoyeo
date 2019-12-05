@@ -37,14 +37,20 @@
     </section>
 </template>
 <script>
+import axios from 'axios';
     export default {
         data () {
             return{
                 freeBoardContents : [], //free board 에서 최신글 5개 제목/id 가져온 배열
                 gatheringBoardContents : [],
-                culturalEventsContents : []
+                culturalEventsContents : [],
+                sessionCheck : false,
             }
-        }
+        },
+        async beforeCreate() {
+        const result = await axios.get("/login");
+        this.sessionCheck = result.data.logined;
+        }, 
     }
 </script>
 

@@ -2,7 +2,7 @@
   <div id="app">
     <div id="menu">
       <div class="menuToggle">
-       <img id="menuImg" src="./assets/menu.png">
+       <img id="menuImg" v-if="sessionCheck" src="./assets/menu.png">
       </div>
     </div>
     <div id="titie">
