@@ -6,23 +6,23 @@
             <div class="boards"> <!--boards Info랑 역할 같음. 혹시 몰라서 추가해둠. 당장 하는 역할 X.-->
                 <div class="boardContents"> <!--free board에서 최신글 5개 보여줌-->
                     <header style="width: 110px"><router-link id="freepageTitle" to="/freeboard">Free Board</router-link></header>
-                    <div v-for="(freeBoardContent, index) in freeBoardContents" :key="freeBoardContent.index" > <!--free board contents : free board에서 게시글 제목/id 5개 가져온 배열-->
-                        <router-link :to="{ name: 'freeBoardDetail', params: {idx: freeBoardContent.index }}" class="contents">{{ freeBoardContent.title }}</router-link>
+                    <div v-for="(freeBoardContent, index) in freeBoardContents" :key="freeBoardContent.idx" > <!--free board contents : free board에서 게시글 제목/id 5개 가져온 배열-->
+                        <router-link :to="{ name: 'freeBoardDetail', params: {idx: freeBoardContent.idx }}" class="contents">{{ freeBoardContent.title }}</router-link>
                         <span class="date">{{ subDate(freeBoardContent.date) }}</span>
                         <hr v-if="index != freeBoardContents.length"> <!--5번째 게시글은 아래쪽 점선없게-->
                     </div>
                 </div>
                 <div class="boardContents"> <!--gathering board 최신글 5개 보여줌-->
                     <header  style="width: 160px"><router-link id="gatheringpageTitle" to="/gathering">Gathering Board</router-link></header>
-                    <div v-for="gatheringBoardContent in gatheringBoardContents" :key="gatheringBoardContent.index">
-                        <router-link :to="{ name: 'gatheringBoardDetail', params: {idx: gatheringBoardContent.index }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
+                    <div v-for="gatheringBoardContent in gatheringBoardContents" :key="gatheringBoardContent.idx">
+                        <router-link :to="{ name: 'gatheringBoardDetail', params: {idx: gatheringBoardContent.idx }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
                         <hr v-if="index != freeBoardContents.length">
                     </div>
                 </div>
                 <div class="boardContents"> <!--cultural events 최신글 5개 보여줌-->
                     <header  style="width: 140px"><router-link id="culturalpageTitle" to="/cultural">Cultural Event</router-link></header>
-                    <div v-for="culturalEventsContent in culturalEventsContents" :key="culturalEventsContent.index" >
-                        <router-link :to="{ name: 'culturalEventsContent', params: { idx: culturalEventsContent.index }}" class="contents">{{ culturalEventsContent.title }}></router-link>
+                    <div v-for="culturalEventsContent in culturalEventsContents" :key="culturalEventsContent.idx" >
+                        <router-link :to="{ name: 'culturalEventsContent', params: { idx: culturalEventsContent.idx }}" class="contents">{{ culturalEventsContent.title }}></router-link>
                         <hr v-if="index != freeBoardContents.length">
                     </div>
                 </div>
