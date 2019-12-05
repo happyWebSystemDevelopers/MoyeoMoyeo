@@ -8,7 +8,7 @@ module.exports = function () {
                 host: 'localhost',
                 port: 3306,
                 user: 'root',   
-                password: '7628',
+                password: '3681',
                 database: 'university_list'  
             })
         }

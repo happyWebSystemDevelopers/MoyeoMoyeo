@@ -10,7 +10,7 @@ var validIdentity = {};
 var validNickname = {};
 
 /* GET users listing. */
-var connection = require('../db/db_conn').init();
+var connection = require('../db/db_conn.js').init();
 
 connection.connect(function (err) {
     if (err) {
