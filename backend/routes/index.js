@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const request=require('request');//api 위치이동
-const convert=require('xml-js');//api 위치이동
+const request = require('request');//api 위치이동
+const convert = require('xml-js');//api 위치이동
 const session = require('express-session');
 
 var userList = new Array();
@@ -21,7 +21,8 @@ var loginData = {
     id : "nahyun",
     pwd : "1212",
     nickname : "nahyun"
-}
+};
+
 router.use(session({
     key: 'sid',//세션의 키값
     secret: 'secret',//세션의 비밀 키
@@ -29,7 +30,7 @@ router.use(session({
     saveUninitialized: true,
     cookie:{
       maxAge: 24000* 60* 60
-    }
+    },
   }));
 
 //userList.push(nahyun);
@@ -80,9 +81,6 @@ router.get("/freeboards/:idx", function(req,res,err) {
 
 }); //게시글 가져오는거 // 여기도 게시글 객체를 만들어서 */
 
-router.post("/freeboards", function(req,res,err){
-    
-}); // 게시글 올리는거 
 
 
 
@@ -112,7 +110,6 @@ request.get(requestUrl,(err,res,body)=>{//문화정보 api위치 이동하기
         // }
     }
 })*/
-
 
 
 module.exports = router;

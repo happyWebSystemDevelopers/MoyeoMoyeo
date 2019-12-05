@@ -35,6 +35,9 @@
 import axios from 'axios';
 
 
+var userid = '';
+var imageCount = 0;
+var imageURL ='';
 export default {
     name: 'writefreeboard',
     data() {
@@ -42,6 +45,11 @@ export default {
             title : '',
             content: '',
         }
+    },
+    async beforeCreate() {
+        const result = await axios.get("/login");
+        this.sessionCheck = result.data.logined;
+        userid = result.data.name;
     },
     methods: {
         postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
@@ -55,7 +63,12 @@ export default {
                 //document.getElementById("userfileImg").removeChild(document.getElementById("userfileImg").firstChild);
             }
             else {
-            axios.post("/writefreeboard",{title: this.title, url :this.imageURL, content : this.content});
+                if(this.imageURL != ''){
+                     axios.post("/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: "nahyum"});
+                }
+                else {
+                     axios.post("/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: "nahyum"});
+                }
             this.$router.push({
                 name: 'free'
             });
@@ -63,11 +76,13 @@ export default {
         },
         fileUpload : function(event) { //첨부파일을 올리는 메또드 
             var fr = new FileReader();
+            if (imageCount == 0) {
             var newImg = document.createElement("img");
             fr.onload = function() {
                  //inputImgSrc = fr.result;
                  newImg.src = fr.result;
-                 this.imageURL = fr.result;
+                 imageURL = fr.result;
+                 alert(newImg.src);
                  newImg.classList.add("userUploadImg");
                  newImg.style.height = '200px';
                  newImg.style.width = '200px';
@@ -75,10 +90,13 @@ export default {
                  document.querySelector("#userfileImg").appendChild(newImg);
             }
             fr.readAsDataURL(event.target.files[0]);
+            imageCount++;
             //document.getElementById("userfileImg").innerHTML = 
+            }
+            else {
+                alert("You can upload one Image file.");
+            }
         }
-
-
     }
 
 }
