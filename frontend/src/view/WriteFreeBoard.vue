@@ -13,7 +13,7 @@
     <span style="font-size: 30px;">Image</span>
     <br>
     <br>
-    <input type="text" v-model="imageURL" style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" placeholder ="Image URL(optional)">
+    <input type="text" v-model="imageURL" @ style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" placeholder ="Image URL(optional)">
     <br>
     <br>
     <span style="font-size: 30px;" >Content</span>
@@ -45,6 +45,8 @@ export default {
                 name: 'free'
             });
         }
+
+
     }
 
 }
