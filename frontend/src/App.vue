@@ -55,7 +55,7 @@
         </router-link>
         <hr/>
         <router-link to="/search">
-        <span>Search Freind</span>
+        <span>Search Friend</span>
         </router-link>
         <hr/>
         <router-link to="/intro">
@@ -87,9 +87,6 @@
 <script>
 import Login from './components/Login.vue'
 import axios from 'axios'
-
-
-
 
 window.onload=function(){
   document.querySelector(".menuToggle").addEventListener("click", function(){

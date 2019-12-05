@@ -5,13 +5,12 @@ import Main from '../view/Main.vue'
 import Free from '../view/FreeBoard.vue'
 import Gathering from '../view/GatheringBoard.vue'
 import Cultural from '../view/CulturalEvent.vue'
-import Search from '../view/SearchFreind.vue'
+import Search from '../view/SearchFriend.vue'
 import Intro from '../view/Intro.vue'
 import FreeDetail from '../view/freeBoardDetail.vue'
 import writeFreeBoard from '../view/WriteFreeBoard'
 import GatheringDetail from '../view/GatheringBoardDetail.vue'
 import EventDetail from '../view/CulturalEvnentDetail'
-import SignUp from '../view/Signup.vue'
 
 
 Vue.use(VueRouter)
@@ -67,11 +66,6 @@ const routes = [
     name : 'culturalEventDetail',
     component : EventDetail
   },
-  {
-    path:'/signup',
-    name :'signUp',
-    component : SignUp
-  }
   
 ]
 

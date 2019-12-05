@@ -70,7 +70,7 @@
         <div id="insideSign1" v-if="!registered">
             <img id="signupPng" src='../assets/signup_welcome.png' style="width: 100%;"/>
             <br>
-            <router-link :to="{name:'main'}" v-if="!registered" class="inputText" id="link">Back To Log-In Page</router-link>
+<!--            <router-link to="/" v-if="!registered" class="inputText" id="link" style="margin-top: 20px">Back To Log-In Page</router-link>-->
         </div>
         <button v-if="registered" v-on:click="btnClicked" class="inputText" id="submit">Register</button>
     </div>
@@ -78,6 +78,8 @@
 
 <script>
     import axios from 'axios'
+
+
     const instance = axios.create({
         baseURL: 'http://localhost:3000',
         timeout: 1000,
@@ -85,7 +87,10 @@
     });
 
     export default{
-        name: 'singIn',
+        name: 'signup',
+        // components:{
+        //   Login
+        // },
         data(){
             return{
                 okID:true,
@@ -138,6 +143,9 @@
         },
 
         methods:{
+            // clickToLogin(){
+            //     Login.state.checkSignUp = false;
+            // },
             onChange(event) {
                 var UNAME= event.target.value;
                 instance.get('/api/universityList/nameindex/'+UNAME)
