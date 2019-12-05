@@ -14,7 +14,7 @@
                 <div class="boardContents"> <!--gathering board 최신글 5개 보여줌-->
                     <header  style="width: 160px"><router-link id="gatheringpageTitle" to="/gathering">Gathering Board</router-link></header>
                     <div v-for="gatheringBoardContent in gatheringBoardContents" :key="gatheringBoardContent.idx">
-                        <router-link :to="{ name: 'gatheringBoardDetail', params: {idx: gatheringBoardContent.index }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
+                        <router-link :to="{ name: 'gatheringBoardDetail', params: {idx: gatheringBoardContent.idx }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
                         <hr v-if="index != freeBoardContents.length">
                     </div>
                 </div>

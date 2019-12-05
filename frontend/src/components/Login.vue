@@ -22,7 +22,7 @@
         <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px; font-size: 20px;">Login</button>
         <br>
         <br>
-            <button @click="signUP" class="signupButton" style="background-color : #77919d; border: 1px solid #77919d; font-size: 15px; width: 70px; height:30px;">Sign Up</button>
+            <button  @click="signUP" class="signupButton" style="background-color : #77919d; border: 1px solid #77919d; font-size: 15px; width: 70px; height:30px;">Sign Up</button>
     </div>
      </div>
     <div v-if ="successLogin && !failLogin">
