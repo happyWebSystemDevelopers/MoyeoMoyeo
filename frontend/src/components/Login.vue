@@ -75,7 +75,7 @@ export default {
                     alert("Please enter your ID or Password!");
                 }
                 else{
-                axios.post("/login",{id : this.userId, pwd: this.password}).then(res => {
+                axios.post("/api/login",{id : this.userId, pwd: this.password}).then(res => {
                     
                     if(res.data.logined == false)
                     {

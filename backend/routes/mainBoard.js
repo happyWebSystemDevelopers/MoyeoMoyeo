@@ -6,7 +6,7 @@ const convert=require('xml-js');//api 위치이동
 /* GET home page. */
 
 //db connection부터 주석처리했음
-/*var myDatabase=require('../db/db_conn');
+var myDatabase=require('../db/db_conn.js');
 var connection= myDatabase.init();
   
   connection.connect(function (err) {   
@@ -19,7 +19,7 @@ var connection= myDatabase.init();
 
 
 router.get("/free", function(req, res, next) {// 새로운거 5개 제목받아오기
-    connection.query('SELECT title FROM university_list.free_table', function(err, datas){
+    connection.query('SELECT * FROM university_list.freeboard ORDER BY date DESC limit 5', function(err, datas){
         if(err) console.log("free board err!");
         else{
             res.send(datas);
@@ -27,7 +27,7 @@ router.get("/free", function(req, res, next) {// 새로운거 5개 제목받아�
     })
    
 });
-
+/*
 router.get("/gathering", function(req, res, next) {
     connection.query('SELECT title FROM university_list.gathering_table', function(err, datas){
         if(err) console.log("free board err!");
