@@ -23,15 +23,15 @@
     <!--<div v-for = "board in freeBoards">-->
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
-            <div class ="board" v-for ="(board, index) in freeBoards" :key ="board.title">
-                <router-link :to = "{name : 'freeBoardDetail', params: {idx : index}}"><img v-if="board.url" v-bind:src="'images/' + board.url" style="height : 200px; width: 250px;">
-                    <img v-else src ="images/poster_4.jpg" style="height : 200px; width: 250px;"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
+            <div id ="board" v-for ="(board, index) in freeBoards" :key ="board.title">
+                <router-link :to="{name : 'freeBoardDetail', params: {idx : index}}"><img class="boardImg" v-if="board.url" v-bind:src="'images/' + board.url" >
+                    <img class="boardImg" v-else src ="images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
                 <br>
                 <span style ="color : #566270;">{{ board.email }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
-                <span style ="color : #566270;">{{ board.title }}</span></router-link>
+                <span style ="color : #566270;" :title="board.title">{{ checkBoardTitle(board.title) }}</span></router-link>
             </div>
         </div>
 
@@ -44,7 +44,7 @@
                 <tr class ="linedBoard" v-for ="(board, index) in freeBoards" :key ="board.title">
                     <td align="center" style ="color : #566270;">{{ board.writer }}</td>
                     <td align="center" style ="color : #566270;">{{ board.email }}</td>
-                    <router-link :to = "{name : 'freeBoardDetail', params: {idx : index}}"><td align="left" style ="color : #566270; left: 640px">{{ board.title }}</td></router-link>
+                    <router-link :to = "{name : 'freeBoardDetail', params: {idx : index}}"><td align="left" style ="color : #566270; left: 640px" :title="board.title">{{ checkBoardTitle(board.title) }}</td></router-link>
                     <!--<hr style ="color : #E0E3DA; border : 1.2px dotted;"/>-->
                 </tr>
             </table>
@@ -108,6 +108,10 @@ export default {
         },
         toGrid : function(){ // 라인 보기 방식일 때 누르면 그리드 보기로 바뀜
             this.viewMethod = 'grid';
+        },
+        checkBoardTitle(title){
+            if(title.length>25) return title.substring(0,25)+"...";
+            else return title;
         }
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
@@ -127,21 +131,24 @@ export default {
     height : 20px;
     width : 100px;
 }
-.board {
+#board{
     display: inline-block;
-    border : 1.5px solid;
+    border : 2px solid;
     color : #E0E3DA;
-    height: 300px;
+    border-radius : 5px;
+    height: 330px;
     width: 260px;
     margin-left : 120px;
     margin-right : 85px;
     margin-top : 50px;
     transition: 0.5s;
-    padding : 10px; /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
+     /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
 }
-.board:hover{
-    border: 3px solid #ff7473;
+#board:hover{
+    border: 2px solid #ff7473;
     border-radius : 5px;
+   
+
 }
 .viewChange{
     margin-left: 10px;
@@ -154,8 +161,14 @@ export default {
     margin-left: 140px;
     width : 1230px;
 }
-    td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성자, 작성자 이메일, 제목)*/
+td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성자, 작성자 이메일, 제목)*/
         height: 30px;
         line-height: 30px;
-    }
+}
+.boardImg{
+    margin: 10px;
+    height : 200px; 
+    width: 240px;
+}
+    
 </style>
