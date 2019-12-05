@@ -4,16 +4,16 @@
         <ul id="boardsInfo"> <!--게시판 전체 정보 담는 박스-->
             <div class="boards"> <!--boards Info랑 역할 같음. 혹시 몰라서 추가해둠. 당장 하는 역할 X.-->
                 <div class="boardContents"> <!--free board에서 최신글 5개 보여줌-->
-                    <header style="width: 110px">Free Board</header>
+                    <header style="width: 110px"><router-link to="/freeboard">Free Board</router-link></header>
                     <div v-for="(freeBoardContent, index) in freeBoardContents" :key="freeBoardContent.id" > <!--free board contents : free board에서 게시글 제목/id 5개 가져온 배열-->
-                        <router-link :to="{ name: 'freeBoard', params: { id: freeBoardContent.id }}" class="contents">{{ freeBoardContent.title }}></router-link>
+                        <router-link :to="{ name: 'freeBoardDetail', params: {idx: freeBoardContent.index }}" class="contents">{{ freeBoardContent.title }}</router-link>
                         <hr v-if="index != freeBoardContents.length"> <!--5번째 게시글은 아래쪽 점선없게-->
                     </div>
                 </div>
                 <div class="boardContents"> <!--gathering board 최신글 5개 보여줌-->
                     <header  style="width: 160px">Gathering Board</header>
                     <div v-for="gatheringBoardContent in gatheringBoardContents" :key="gatheringBoardContent.id">
-                        <router-link :to="{ name: 'freeBoard', params: { id: gatheringBoardContent.id }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
+                        <router-link :to="{ name: 'freeBoard', params: {id: gatheringBoardContent.id }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
                         <hr v-if="index != freeBoardContents.length">
                     </div>
                 </div>
@@ -48,8 +48,14 @@ import axios from 'axios';
             }
         },
         async beforeCreate() {
-        const result = await axios.get("/login");
+        const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
+       const freeResult = await axios.get("/api/main/free");
+        this.freeBoardContents = freeResult.data;
+      /*  const gatheringResult = await axios.get("/api/main/gathering");
+        this.gatheringBoardContents = gatheringResult.data;
+        const culturalResult = await axios.get("/api/main/cultural");
+        this.culturalEventsContents = culturalResult.data;*/
         }, 
     }
 </script>

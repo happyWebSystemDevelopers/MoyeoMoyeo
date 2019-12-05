@@ -118,7 +118,7 @@ export default {
     }
   },
   async beforeCreate() {
-    const result = await axios.get("/login");
+    const result = await axios.get("/api/login");
     this.sessionCheck = result.data.logined;
   }, 
   methods : {

@@ -34,7 +34,7 @@ router.use(session({
 
 //userList.push(nahyun);
 
-router.get("/login", function(req, res, next) {
+router.get("/api/login", function(req, res, next) {
     var sess = req.session;
     console.log(sess);
     res.send(sess);
@@ -42,7 +42,7 @@ router.get("/login", function(req, res, next) {
     //res.render('index', { title: 'Express' });
 });
 
-router.post("/login",function(req,res,err){
+router.post("/api/login",function(req,res,err){
     var sess;
     sess = req.session;
     var userInfo = {

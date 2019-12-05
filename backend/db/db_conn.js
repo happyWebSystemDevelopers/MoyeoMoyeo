@@ -1,16 +1,16 @@
 var mysql = require('mysql');
 
  
-module.exports = function () {
+module.exports =( function () {
     return {
-        init: function () {
+        init : function () {
             return mysql.createConnection({
                 host: 'localhost',
                 port: 3306,
                 user: 'root',   
-                password: '7628',
+                password: 'duddlsdud1',
                 database: 'university_list'  
             })
         }
     }
-};
+})();
