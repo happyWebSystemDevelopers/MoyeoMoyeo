@@ -56,7 +56,8 @@ const routes = [
     path : '/writefreeboard',
     name : 'writeFreeBoard',
     component : writeFreeBoard
-
+  },
+  {
     path : '/gatheringboard/:idx',
     name : 'gatheringBoardDetail',
     component : GatheringDetail

@@ -88,7 +88,6 @@ var freeBoardExample = [{
 },
 {
     url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi33",
     title : "VeeeeeeeeeeeeeeeeeeeeeeeeeeeryLooooooooooooooooooooooooongTiiiiiiiiiiiiiiiiiiiiiitle",
     email : "sooyoung1234@ajou.ac.kr",
     writer : "nahyun"
@@ -129,8 +128,9 @@ export default {
 }
 .board {
     display: inline-block;
-    border : 1.5px solid;
+    border : 3px solid;
     color : #E0E3DA;
+    border-radius : 5px;
     height: 300px;
     width: 260px;
     margin-left : 120px;
