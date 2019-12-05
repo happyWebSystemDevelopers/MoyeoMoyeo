@@ -8,6 +8,7 @@ import Cultural from '../view/CulturalEvent.vue'
 import Search from '../view/SearchFreind.vue'
 import Intro from '../view/Intro.vue'
 import FreeDetail from '../view/freeBoardDetail.vue'
+import writeFreeBoard from '../view/WriteFreeBoard'
 
 
 Vue.use(VueRouter)
@@ -47,7 +48,11 @@ const routes = [
     path : '/freeboard/:idx',
     name : 'freeBoardDetail',
     component : FreeDetail
-    
+  },
+  {
+    path : '/writefreeboard',
+    name : 'writeFreeBoard',
+    component : writeFreeBoard
   }
   
   

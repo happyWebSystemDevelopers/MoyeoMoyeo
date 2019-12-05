@@ -19,10 +19,10 @@
         <input type="password" @keyup.enter="login" v-model="password" style="border-right:0px; border-top:0px; boder-left:0px; boder-bottom:1px;" required>
         <br>
         <br>
-        <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px;">Login</button>
+        <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px; font-size: 20px;">Login</button>
         <br>
         <br>
-        <button class="signupButton" style="background-color : #77919d; border: 1px solid #77919d;">Sign Up</button>
+        <button class="signupButton" style="background-color : #77919d; border: 1px solid #77919d; font-size: 15px; width: 70px; height:30px;">Sign Up</button>
     </div>
     <div v-if ="successLogin && !failLogin">
         <img src="../assets/welcome.png" style ="height: 80px; width: 350px">

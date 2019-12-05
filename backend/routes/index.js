@@ -78,16 +78,12 @@ router.delete("/logout",function(req,res,err) {
 
 router.get("/freeboards/:idx", function(req,res,err) {
 
-}); //게시글 가져오는거 // 여기도 게시글 객체를 만들어서 
+}); //게시글 가져오는거 // 여기도 게시글 객체를 만들어서 */
 
 router.post("/freeboards", function(req,res,err){
-
+    
 }); // 게시글 올리는거 
 
-
-
-=======
-});
 
 
 

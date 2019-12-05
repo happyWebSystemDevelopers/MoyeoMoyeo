@@ -38,14 +38,20 @@
     </section>
 </template>
 <script>
+import axios from 'axios';
     export default {
         data () {
             return{
                 freeBoardContents : [],
                 gatheringBoardContents : [],
-                culturalEventsContents : []
+                culturalEventsContents : [],
+                sessionCheck : false,
             }
-        }
+        },
+        async beforeCreate() {
+        const result = await axios.get("/login");
+        this.sessionCheck = result.data.logined;
+        }, 
     }
 </script>
 
