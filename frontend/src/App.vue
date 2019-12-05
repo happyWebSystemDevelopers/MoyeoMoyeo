@@ -2,7 +2,7 @@
   <div id="app">
     <div id="menu">
       <div class="menuToggle">
-       <img id="menuImg" src="./assets/menu.png">
+       <img id="menuImg" v-if="sessionCheck" src="./assets/menu.png">
       </div>
     </div>
     <div id="titie">
@@ -127,7 +127,8 @@ export default {
       this.logoutCheck = true;
       alert("Logout Success!");
       setTimeout(()=> {
-        location.reload();
+        location.replace('/'); //로그아웃하면 메인으로 가게 수정. (기존엔 free board 등에서 로그아웃하면 404 떴음)
+        //location.reload();
     },3000);    
     }
   }
