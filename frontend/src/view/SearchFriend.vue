@@ -107,8 +107,6 @@
                 var university = this.selectedUniversity;
                 var majorUniversityIndex = this.resultUniindex;
                 var major = this.selectedMajor;
-
-                if(this.selectedName.length != 0) {
                     //  posting();
                     axios.post('/api/users/postByWhole', {
                             name: event.target.value,
@@ -121,7 +119,7 @@
                     ).then(response=>{
                         this.searchedPeople = response.data;
                     })
-                }
+
             },
             onChange1(event){
                 this.searchedPeople = [{}];
@@ -132,7 +130,6 @@
                 var majorUniversityIndex = this.resultUniindex;
                 var major = this.selectedMajor;
 
-                if(this.selectedNickname.length != 0) {
                     //  posting();
                     axios.post('/api/users/postByWhole', {
                             name: name,
@@ -145,7 +142,7 @@
                     ).then(response=>{
                         this.searchedPeople = response.data;
                     })
-                }
+
             },
             onChange2(event){
                 this.searchedPeople = [{}];
@@ -157,7 +154,6 @@
                 var majorUniversityIndex = this.resultUniindex;
                 var major = this.selectedMajor;
 
-                if(this.selectedCountry.length != 0) {
                     //  posting();
                     axios.post('/api/users/postByWhole', {
                             name: name,
@@ -170,7 +166,7 @@
                     ).then(response=>{
                         this.searchedPeople = response.data;
                     })
-                }
+
             },
             onChange3(event){
                 this.searchedPeople = [{}];
@@ -187,7 +183,6 @@
                 var majorUniversityIndex = this.resultUniindex;
                 var major = this.selectedMajor;
 
-                if(this.selectedUniversity.length != 0) {
                     //  posting();
                     axios.post('/api/users/postByWhole', {
                             name: name,
@@ -200,7 +195,7 @@
                     ).then(response=>{
                         this.searchedPeople = response.data;
                     })
-                }
+
             },
             onChange4(event){
                 this.searchedPeople = [{}];
@@ -212,7 +207,7 @@
                 var majorUniversityIndex = this.resultUniindex;
                 var major = event.target.value;
 
-                if(this.selectedMajor.length != 0) {
+
                     //  posting();
                     axios.post('/api/users/postByWhole', {
                             name: name,
@@ -225,7 +220,7 @@
                     ).then(response=>{
                         this.searchedPeople = response.data;
                     })
-                }
+
             }
 
 
