@@ -1,20 +1,5 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class ="free">
-    <!--<img id="freeboardImg" src="../assets/freeBoard.png" style ="height : 60px; width:220px; margin-left: 650px;">
-    <router-link to ="/writefreeboard"><button id="createButton" style ="margin-left: 400px; width:100px; height: 40px; font-size: 20px;">Create</button></router-link>
-    <hr align="left" style ="color : #dddfe6; border: 2px solid; margin-left: 120px; margin-right: 120px;"/>-->
-    <!--<div v-for = "board in freeBoards">-->
-    <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
-    <!--div class ="board" v-for ="(board, index) in freeBoards" :key ="board.title">
-    <router-link :to = "{name : 'freeBoardDetail', params: {idx : index}}"><img v-if="board.url" v-bind:src="'images/' + board.url" style="height : 200px; width: 260px;">
-    <img v-else src ="images/poster_4.jpg" style="height : 200px; width: 260px;">
-    <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
-    <span style ="color : #566270;">{{ board.writer }}</span>
-    <br>
-    <span style ="color : #566270;">{{ board.email }}</span>
-    <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
-    <span style ="color : #566270;">{{ board.title }}</span></router-link>
-    </div>-->
     <img id="freeboardImg" src="../assets/freeBoard.png" style ="height : 60px; width:220px; margin-left: 42%;">
     <router-link to ="/writefreeboard"><button id="createButton" style ="margin-left: 350px; width:100px; height: 40px; font-size: 20px;">Create</button></router-link>
     <button v-if="viewMethod=='grid'" v-on:click="toLined" class="viewChange"><img class="btnImg" src="../assets/lined.png"></button> <!--그리드/라인 보기 방식 변경하는 버튼-->
@@ -33,7 +18,7 @@
                 <span style ="color : #566270;">{{ board.email }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;" :title="board.title">{{ checkBoardTitle(board.title) }}</span></router-link>
-                <div  v-if ="checkBoardUser(board.userID)">
+                <div v-if="checkBoardUser(board.userID)">
                     <hr>
                     <button class = "moreService" v-on:click="deleteBoard(board.idx)">Delete</button>
                     <router-link :to="{name : 'modifyFreeBoard', params: {idx : board.idx}}"><button class = "moreService">Modify</button></router-link>
@@ -62,60 +47,16 @@
     </div>
 </template>
 <script>
-
 import axios from 'axios';
 //freeboard를 DB에서 가져올 때 글쓴이랑 이메일이랑 제목을 가져와서 일단 보여주도록
-
-/*var freeBoardExample = [{
-    url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hello",
-    email : "nahyun1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi7",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi3",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi11",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "VeeeeeeeeeeeeeeeeeeeeeeeeeeeryLooooooooooooooooooooooooongTiiiiiiiiiiiiiiiiiiiiiitle",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-}
-];*/
-
-var boarduser = '';
-
-
 export default {
     name: 'free',
     data() {
         return {
-
             freeBoards : '',
             viewMethod : 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
             modifyON : false,
-
+            boarduser :'',
         }
     },
     methods: {
@@ -129,33 +70,35 @@ export default {
             if(title.length>25) return title.substring(0,25)+"...";
             else return title;
         },
-        checkBoardUser : function(boardUserID){ // 자기가 쓴 글인 경우 수정 및 삭제를 할 수 있는 메뉴? 보여주는 플래그
-            if (boardUserID == boarduser)
+        alertMoreInfo : async function(alertUserID) { // 다른사람이 쓴 글에서 그 글쓴이 정보 alert
+            const res = await axios.get("/api/freeboard/moreUserInfo/"+alertUserID);
+            //alert(res.data);
+            alert("Writer : "+res.data.nickname +" , Email : "+res.data.email);
+        },
+        deleteBoard : async function(boardIndex) {
+            const res = await axios.delete("/api/freeboard/delete/"+boardIndex);
+            if(res.data == true) alert("Success Delete");
+            const result = await axios.get("/api/freeboard");
+            this.freeBoards = result.data;
+            this.router.push({
+                name:'free'
+            })
+ 
+        },
+        checkBoardUser : function(boardUserID) { // 자기가 쓴 글인 경우 수정 및 삭제를 할 수 있는 메뉴? 보여주는 플래그
+            if (boardUserID == this.boarduser)
             {
                 return true;
             }
             else return false;
         },
-        alertMoreInfo : async function(alertUserID) { // 다른사람이 쓴 글에서 그 글쓴이 정보 alert
-            const res = await axios.get("/api/freeboard/moreUserInfo/"+alertUserID);
-            //alert(res.data);
-            alert("Writer : "+res.data.nickname +" , Email : "+res.data.email);
-
-        },
-        deleteBoard : async function(boardIndex) {
-            const res = await axios.delete("/api/freeboard/delete/"+boardIndex);
-            if(res.data == true) alert("Success Delete");
-            location.reload();
-        },
-
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
         const result = await axios.get("/api/freeboard");
         this.freeBoards = result.data;
-
         const loginresult = await axios.get("/api/login");
         this.sessionCheck = loginresult.data.logined;
-        boarduser = loginresult.data.name;//로그인한 유저 아이디
+        this.boarduser = loginresult.data.name;//로그인한 유저 아이디
     }
 }
 </script>
@@ -179,12 +122,12 @@ export default {
     margin-right : 85px;
     margin-top : 30px;
     transition: 0.5s;
+    text-align: center;
      /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
 }
 #board:hover{
     border: 2px solid #ff7473;
     border-radius : 5px;
-
 }
 .viewChange{
     padding-top: 2px;
@@ -203,6 +146,8 @@ export default {
 .linedBoard{
     margin-left: 140px;
     width : 1230px;
+     line-height: 12px;
+    font-size: 14px;
 }
 td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성자, 작성자 이메일, 제목)*/
         height: 30px;
@@ -220,8 +165,9 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 55px;
-    margin-left : 50px;
-}
+    margin-left: 20px;
+    margin-right: 20px;
+ }
 .moreService2 {
     background-color :#84B1ED;
     border : 1.2px solid #84B1ED;
@@ -229,7 +175,7 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 200px;
-    margin-left : 30px;
+   
 }
     
 </style>

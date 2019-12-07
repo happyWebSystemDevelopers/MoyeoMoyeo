@@ -1,13 +1,134 @@
 <template>
-    <div></div>
+    <div >
+    <img id="CulturalImg" src="../assets/freeBoard.png" style ="height:60px; width:220px; margin-left: 42%;">
+    <router-link to ="/cultural"><button id="cgobackButton" >Go Back</button></router-link>
+    <hr align="left" style ="color : #dddfe6; border: 2px solid; margin-left: 120px; margin-right: 120px;"/>
+    <div class ="culturalDetail">
+        <div id="ctitle">
+            <span id="cindex">[{{$route.params.idx}}] </span>
+            <span id="dataName">{{data.name}}</span>
+           
+        </div>
+        
+         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
+         <div id="content">
+         {{data.pageurl}}
+        <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
+        {{data.addr}}
+        <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
+        <img :src="data.imgurl" style="height:400px; width:500px;"/>
+        <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
+        
+            <div id="dataContent">
+               <div v-html="content"></div>
+                <!--이미지 url추가해야함-->
+            </div>
+        </div>
+      
+    </div>
+ 
+    </div>
 </template>
-
 <script>
-    export default {
-        name: "CulturalEvnentDetail"
-    }
-</script>
+ 
+ import axios from 'axios';
 
-<style scoped>
+
+ export default {
+        data () {
+            return{
+                data:{}, //free board 에서 최신글 5개 제목/id 가져온 배열
+                content:'',
+            }
+        },
+        methods : {
+          
+          
+        },
+        async beforeCreate() {
+     
+        var id = this.$route.params.idx
+        const CulturalResult = await axios.get("/api/cultural/"+id);
+        this.data = CulturalResult.data;
+        this.content=this.data.content;
+      
+      
+        }, 
+    }
+
+
+
+
+
+</script>
+<style>
+.culturalDetail{
+    margin-left: 11%;
+    display: inline-block;
+    border : 1.5px solid #47b8e0;
+    padding : 20px;
+    width: 75%;
+    margin-top:10px;
+    color: rgb(114, 113, 113);
+
+
+}
+#freecomment{
+    margin-top: 1%;
+     margin-left: 11%;
+    display: inline-block;
+    border : 1.5px dashed #ffc952;
+    padding : 20px;
+    padding-bottom: 4%;
+    width: 75%;
+    color: rgb(114, 113, 113);
+
+}
+#cgobackButton{
+     border : 1.5px solid #47b8e0;
+      color: #47b8e0;
+    margin-left: 350px;
+    width:100px;
+    height: 40px;
+     font-size: 20px;
+     border-radius: 5px;
+     background-color: white;
+}
+#ctitle{
+    margin-left: 8%;
+    word-break: break-all;
+    margin-top: 3%;
+    width: 82%;
+   
+}
+#cindex{
+    color: #47b8e0;
+   
+}
+#dataName{
+    font-size: 23px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+#date{
+    color:rgb(143, 152, 161);
+    float: right;
+    line-height: 34px;
+    
+}
+.subDate{
+    margin: 5px;
+    font-size: 14px;
+}
+#content{
+    /*height: 500px;/*일단 크기 할당하고 시작할게요!!*/
+    padding-bottom: 20%;
+    margin-left: 9%;
+    margin-top: 3%
+}
+#dataContent{
+    word-break: break-all;
+    padding-right: 10%;
+}
 
 </style>
