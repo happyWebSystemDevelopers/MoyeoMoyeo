@@ -14,7 +14,7 @@
         <span style="color:#909090; font-size:13px; ">My page |</span>
         
         <button style="color:#909090; font-size:13px; margin-right:12px; background-color : white; border : 1px solid white;" v-on:click="logout"> Logout </button>
-        <span id="logoutClick" style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> Yeong In Park </span>
+        <span id="logoutClick" style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> {{ userName }} </span>
       <img id="userImg" src="./assets/userImage.png">
       </div>
     </div>
@@ -112,11 +112,13 @@ export default {
     return {
       sessionCheck : false,
       logoutCheck : false,
+      userName:''
     }
   },
   async beforeCreate() {
     const result = await axios.get("/api/login");
     this.sessionCheck = result.data.logined;
+    this.userName = result.data.nickname;
   }, 
   methods : {
     logout : function() {

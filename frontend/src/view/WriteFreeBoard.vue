@@ -47,8 +47,9 @@ export default {
             content: '',
         }
     },
-    async beforeCreate() {//userName 에 아이디에 해당하는 nickname 가져옴
-        const result = await axios.get("/login");
+
+    async beforeCreate() {
+        const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
         axios.get('/api/users/getNickName/'+userid)
@@ -74,6 +75,7 @@ export default {
                 }
                 else {
                      axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: userNickName});
+
                 }
             this.$router.push({
                 name: 'free'
