@@ -11,7 +11,7 @@
 
             <div id ="board" v-for ="board in gatheringBoards" :key ="board.title">
                 <router-link :to="{name : 'gatheringBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.image" v-bind:src="board.image.data" >
-                    <img class="boardImg" v-else src ="images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
+                    <img class="boardImg" v-else src ="/images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
                 <br>
@@ -85,10 +85,13 @@ export default {
         deleteBoard : async function(boardIndex) {
             const res = await axios.delete("/api/gatheringboard/delete/"+boardIndex);
             if(res.data == true) alert("Success Delete");
-            const result = await axios.get("/api/gatheringboard");
+            const result = await axios.get("/api/gatheringboard/category/" + this.$route.params.option);
             this.gatheringBoards = result.data;
             this.router.push({
-                name:'gathering'
+                name:'gatheringboardbycategory',
+                params : {
+                    option :  + this.$route.params.option,
+                }
             })
  
         },
@@ -101,9 +104,8 @@ export default {
         },
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
-        const result = await axios.get("/api/gatheringboard");
+        const result = await axios.get("/api/gatheringboard/category/" + this.$route.params.option);
         this.gatheringBoards = result.data;
-
         const loginresult = await axios.get("/api/login");
         this.sessionCheck = loginresult.data.logined;
         this.boarduser = loginresult.data.name;//로그인한 유저 아이디
