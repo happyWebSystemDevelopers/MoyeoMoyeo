@@ -15,7 +15,7 @@
     <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
     <span style ="color : #566270;">{{ board.title }}</span></router-link>
     </div>-->
-    <img id="freeboardImg" src="../assets/freeBoard.png" style ="height : 60px; width:220px; margin-left: 630px;">
+    <img id="freeboardImg" src="../assets/freeBoard.png" style ="height : 60px; width:220px; margin-left: 42%;">
     <router-link to ="/writefreeboard"><button id="createButton" style ="margin-left: 350px; width:100px; height: 40px; font-size: 20px;">Create</button></router-link>
     <button v-if="viewMethod=='grid'" v-on:click="toLined" class="viewChange"><img class="btnImg" src="../assets/lined.png"></button> <!--그리드/라인 보기 방식 변경하는 버튼-->
     <button v-if="viewMethod=='lined'" v-on:click="toGrid" class="viewChange"><img class="btnImg" src="../assets/grided.png"></button>
@@ -23,8 +23,8 @@
     <!--<div v-for = "board in freeBoards">-->
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
-            <div id ="board" v-for ="(board, index) in freeBoards" :key ="board.title">
-                <router-link :to="{name : 'freeBoardDetail', params: {idx : index}}"><img class="boardImg" v-if="board.url" v-bind:src="'images/' + board.url" >
+            <div id ="board" v-for ="board in freeBoards" :key ="board.idx">
+                <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.url" v-bind:src="'images/' + board.url" >
                     <img class="boardImg" v-else src ="images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
@@ -46,10 +46,10 @@
                 <th style="border-left: solid; border-left-color: #dddfe6; border-right: solid; border-right-color: #dddfe6;">E-mail</th>
                 <th>Title</th>
                 <br>
-                <tr class ="linedBoard" v-for ="(board, index) in freeBoards" :key ="board.title">
+                <tr class ="linedBoard" v-for ="board in freeBoards" :key ="board.idx">
                     <td align="center" style ="color : #566270;">{{ board.writer }}</td>
                     <td align="center" style ="color : #566270;">{{ board.email }}</td>
-                    <router-link :to = "{name : 'freeBoardDetail', params: {idx : index}}"><td align="left" style ="color : #566270; left: 640px" :title="board.title">{{ checkBoardTitle(board.title) }}</td></router-link>
+                    <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><td align="left" style ="color : #566270; left: 640px" :title="board.title">{{ checkBoardTitle(board.title) }}</td></router-link>
                     <!--<hr style ="color : #E0E3DA; border : 1.2px dotted;"/>-->
                 </tr>
             </table>
@@ -98,15 +98,19 @@ import axios from 'axios';
     writer : "nahyun"
 }
 ];*/
+
 var boarduser = '';
+
 
 export default {
     name: 'free',
     data() {
         return {
+
             freeBoards : '',
             viewMethod : 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
             modifyON : false,
+
         }
     },
     methods: {
@@ -134,7 +138,7 @@ export default {
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
         const result = await axios.get("/api/freeboard");
         this.freeBoards = result.data;
-        //alert(this.freeBoards);
+
         const loginresult = await axios.get("/api/login");
         this.sessionCheck = loginresult.data.logined;
         boarduser = loginresult.data.name;//로그인한 유저 아이디
