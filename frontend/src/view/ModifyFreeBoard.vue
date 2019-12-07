@@ -1,6 +1,6 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="write">
-    <img id="freeboardImg" src="../assets/writeFreeboard.png" style ="height: 42px; width:250px; margin-left: 150px;">
+    <img id="freeboardImg" src="../assets/modifyfreeboard.png" style ="height: 42px; width:250px; margin-left: 150px;">
     <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 120px; margin-right: 120px; border-style: dashed;"/>
     <br>
     <div class ="writeboard">
@@ -24,10 +24,10 @@
     <span style="font-size: 30px;" >Content</span>
     <br>
     <br>
-    <textarea v-model="content" style="width: 1100px; height: 400px" placeholder = "Content" required></textarea>
+    <input type="textarea" v-model="content" style="width: 1100px; height: 400px" placeholder = "Content" required>
     <br>
     <br>
-    <button id="writeButton" v-on:click="postContent" style ="margin-left: 500px; width:100px; height: 40px; font-size: 20px;">Create</button>
+    <button id="modifyButton" v-on:click="modifyContent" style ="margin-left: 500px; width:100px; height: 40px; font-size: 20px;">Modify</button>
     </div>
     </div>
 </template>
@@ -60,7 +60,8 @@ export default {
 
     },
     methods: {
-        postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
+        modifyContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
+            var boardindex = this.$route.params.idx;
             if(this.title == "" || this.content == "")
             {
                 alert("Please write Title and Content")
@@ -71,12 +72,11 @@ export default {
                 //document.getElementById("userfileImg").removeChild(document.getElementById("userfileImg").firstChild);
             }
             else {
-
                 if(this.imageURL != ''){
-                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.put("/api/freeboard/modify/"+boardindex,{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
                 }
                 else {
-                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.put("/api/freeboard/modify/"+boardindex,{title: this.title, content :this.content, userID : userid, writer: userNickName, email : useremail});
 
                 }
             this.$router.push({

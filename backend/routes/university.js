@@ -22,7 +22,7 @@ connection.connect(function (err) {
 });
 
 router.get('/name', function(req, res, next) {
-    connection.query("SELECT id,name FROM university_list.uni_table GROUP BY name",function(err,results){
+    connection.query("SELECT name FROM university_list.uni_table GROUP BY name",function(err,results){
         if(err) console.log("ERROR");
         else
         {
@@ -33,7 +33,7 @@ router.get('/name', function(req, res, next) {
 });
 
 router.get('/nameindex/:UNAME',function(req,res,next){
-    connection.query(`SELECT id,nameindex FROM university_list.uni_table WHERE name='${req.params.UNAME}' GROUP BY nameindex`,
+    connection.query(`SELECT nameindex FROM university_list.uni_table WHERE name='${req.params.UNAME}' GROUP BY nameindex`,
         function(err,results){
             universityIndex = Array.from(new Set(results));
             res.json(universityIndex);
@@ -55,7 +55,7 @@ router.get('/checkNICK/:NICKNAME',function(req,res,next){
 });
 router.get('/major/:UNAME/:UNAMEINDEX',function(req,res,next){
 
-    connection.query(`SELECT id,major FROM university_list.uni_table WHERE name='${req.params.UNAME}' AND nameindex = '${req.params.UNAMEINDEX}'`,
+    connection.query(`SELECT major FROM university_list.uni_table WHERE name='${req.params.UNAME}' AND nameindex = '${req.params.UNAMEINDEX}'`,
         function(err,results){
             universityMajor = Array.from(new Set(results));
             res.json(universityMajor);

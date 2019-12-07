@@ -10,8 +10,7 @@ module.exports =( function () {
                 user: 'root',   
                 password: 'btbt6594',
 
-
-                database: 'university_list'  
+         database: 'university_list'  
             })
         }
     }
