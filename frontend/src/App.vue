@@ -220,7 +220,7 @@ a:hover {
  
 }
 .menuToggle{
-  width: 30x;
+  
   height: 30px;
   float: right;
   

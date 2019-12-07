@@ -22,7 +22,7 @@
         <button class="loginButton" v-on:click="login" style="height: 35px; width: 200px; font-size: 20px;">Login</button>
         <br>
         <br>
-            <button  @click="signUP" class="signupButton" style="background-color : #77919d; border: 1px solid #77919d; font-size: 15px; width: 70px; height:30px;">Sign Up</button>
+        <button  @click="signUP" class="signupButton">Sign Up</button>
     </div>
      </div>
     <div v-if ="successLogin && !failLogin">
@@ -117,9 +117,24 @@ export default {
     background-color: #47b8e0;
     border: 1px solid #47b8e0;
     margin-right : 3px;
+    transition: 0.5s;
+    margin-top: 15px;
+    color: aliceblue;
+    border-radius : 5px;
+}
+.signupButton{
+    transition: 0.5s;
+    background-color : #77919d;
+    border: 1px solid #77919d; 
+    font-size: 15px; 
+    width: 70px;
+     color: aliceblue; 
+    border-radius : 5px;
+    height:30px;
 }
 button:hover{
     background-color: white;
+    color: #34314c;
 }
 #link{
     margin-top: 15px;

@@ -15,6 +15,21 @@ connection.connect(function (err) {
 router.get("/",function(req,res,err){
     connection.query('select * from university_list.freeboard', function(err,rows,fields){
         if(!err){
+            res.send(rows);
+            console.log(rows);
+        }
+        else{
+            console.log(err);
+        }
+    })
+});
+
+router.get("/:idx",function(req,res,err){
+    var id= req.params.idx;
+    console.log("id :"+ id);
+    connection.query(`select * from university_list.freeboard WHERE idx=${id}`, function(err,rows,fields){
+        if(!err){
+            res.send(rows[0]);
             console.log(rows);
             //console.log(fields);
         }
