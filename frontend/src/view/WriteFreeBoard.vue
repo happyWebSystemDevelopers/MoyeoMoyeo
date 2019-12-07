@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="write">
     <img id="freeboardImg" src="../assets/writeFreeboard.png" style ="height: 42px; width:250px; margin-left: 150px;">
     <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 120px; margin-right: 120px; border-style: dashed;"/>
@@ -38,6 +38,7 @@ import axios from 'axios';
 var userid = '';
 var imageCount = 0;
 var imageURL ='';
+var userNickName = '';
 export default {
     name: 'writefreeboard',
     data() {
@@ -46,10 +47,15 @@ export default {
             content: '',
         }
     },
+
     async beforeCreate() {
         const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
+        axios.get('/api/users/getNickName/'+userid)
+            .then((response)=>{
+                userNickName = response.data;
+            });
     },
     methods: {
         postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
@@ -63,15 +69,19 @@ export default {
                 //document.getElementById("userfileImg").removeChild(document.getElementById("userfileImg").firstChild);
             }
             else {
+
                 if(this.imageURL != ''){
-                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content:this.content, userID : userid, writer: "nahyum"});
+                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName});
                 }
                 else {
-                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: "nahyum"});
+                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: userNickName});
+
                 }
             this.$router.push({
                 name: 'free'
             });
+                this.title='';
+                this.content='';
             }
         },
         fileUpload : function(event) { //첨부파일을 올리는 메또드 

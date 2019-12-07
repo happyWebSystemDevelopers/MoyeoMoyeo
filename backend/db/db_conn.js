@@ -10,6 +10,7 @@ module.exports =( function () {
                 user: 'root',   
                 password: 'sk13465212!',
 
+
                 database: 'university_list'  
             })
         }
