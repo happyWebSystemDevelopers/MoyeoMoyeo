@@ -22,6 +22,8 @@ router.get("/free", function(req, res, next) {// 새로운거 5개 제목받아�
     connection.query('SELECT * FROM university_list.freeboard ORDER BY date DESC limit 5', function(err, datas){
         if(err) console.log("free board err!");
         else{
+            let hi=null;
+            console.log(`hihi${hi}hello`)
             res.send(datas);
         }
     })
