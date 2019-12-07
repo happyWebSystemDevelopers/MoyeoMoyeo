@@ -24,8 +24,8 @@
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
 
-            <div id ="board" v-for ="(board, index) in freeBoards" :key ="board.title">
-                <router-link :to="{name : 'freeBoardDetail', params: {idx : index}}"><img class="boardImg" v-if="board.image" v-bind:src="board.image.data" >
+            <div id ="board" v-for ="board in freeBoards" :key ="board.title">
+                <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.image" v-bind:src="board.image.data" >
                     <img class="boardImg" v-else src ="images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
@@ -33,14 +33,14 @@
                 <span style ="color : #566270;">{{ board.email }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;" :title="board.title">{{ checkBoardTitle(board.title) }}</span></router-link>
-                <div class = "moreService" v-if ="checkBoardUser(board.userID)">
+                <div  v-if ="checkBoardUser(board.userID)">
                     <hr>
-                    <button>Delete</button> | 
-                    <button>Modify</button>
+                    <button class = "moreService" v-on:click="deleteBoard(board.idx)">Delete</button>
+                    <router-link :to="{name : 'modifyFreeBoard', params: {idx : board.idx}}"><button class = "moreService">Modify</button></router-link>
                 </div>
-                <div class = "moreService" v-else>
+                <div v-else>
                     <hr>
-                    <button v-on:click="alertMoreInfo(board.userID)">More user Info</button>
+                    <button class = "moreService2" v-on:click="alertMoreInfo(board.userID)">More user Info</button>
                 </div>
             </div>
         </div>
@@ -136,11 +136,18 @@ export default {
             }
             else return false;
         },
-        alertMoreInfo : function(alertUserID) { // 다른사람이 쓴 글에서 그 글쓴이 정보 alert
-            const res = axios.get("/freeboard/moreUserInfo/"+alertUserID);
-            alert("Writer : "+res.nickname+" , Email : "+res.email);
+        alertMoreInfo : async function(alertUserID) { // 다른사람이 쓴 글에서 그 글쓴이 정보 alert
+            const res = await axios.get("/api/freeboard/moreUserInfo/"+alertUserID);
+            //alert(res.data);
+            alert("Writer : "+res.data.nickname +" , Email : "+res.data.email);
 
-        }
+        },
+        deleteBoard : async function(boardIndex) {
+            const res = await axios.delete("/api/freeboard/delete/"+boardIndex);
+            if(res.data == true) alert("Success Delete");
+            location.reload();
+        },
+
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
         const result = await axios.get("/api/freeboard");
@@ -206,6 +213,23 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     height : 200px; 
     width: 240px;
 }
-
+.moreService {
+    background-color : #84B1ED;
+    border : 1.2px solid #84B1ED;
+    border-radius: 3px;
+    color : white;
+    height : 20px;
+    width : 55px;
+    margin-left : 50px;
+}
+.moreService2 {
+    background-color :#84B1ED;
+    border : 1.2px solid #84B1ED;
+    border-radius: 3px;
+    color : white;
+    height : 20px;
+    width : 200px;
+    margin-left : 30px;
+}
     
 </style>
