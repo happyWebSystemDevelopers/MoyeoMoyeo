@@ -39,6 +39,7 @@ var userid = '';
 var imageCount = 0;
 var imageURL ='';
 var userNickName = '';
+var useremail ='';
 export default {
     name: 'writefreeboard',
     data() {
@@ -52,10 +53,13 @@ export default {
         const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
-        axios.get('/api/users/getNickName/'+userid)
+       /* const resultawait axios.get('/api/users/getNickName/'+userid)
             .then((response)=>{
                 userNickName = response.data;
-            });
+            });*/
+        const resultEmail = await axios.get('/api/users/getEmail/'+userid);
+        useremail = resultEmail.data;
+        alert(useremail);
     },
     methods: {
         postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
@@ -71,10 +75,10 @@ export default {
             else {
 
                 if(this.imageURL != ''){
-                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName});
+                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
                 }
                 else {
-                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: userNickName});
+                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: userNickName, email : useremail});
 
                 }
             this.$router.push({

@@ -51,14 +51,25 @@ router.post("/write",function(req,res,err){
     var userID = body.userID;
     var content = body.content;
     var image = body.url;
+    var email = body.email;
     const date = new Date();
     var currentDate = date.toFormat('YYYY-MM-DD');
     connection.query(`INSERT INTO university_list.freeboard (userID, title, writer, content,
-     date,image) VALUES ('${userID}','${title}','${writer}','${content}','${currentDate}','${image}')`,
+     date,image,email) VALUES ('${userID}','${title}','${writer}','${content}','${currentDate}','${image}','${email}')`,
         function(err,results){
 
     });
 res.end();
 });
+
+router.get("/freeboard/moreUserInfo/:userID", function(req,res,err){
+    var userID = req.params.userID;
+    connection.query(`SELECT email, nickname FROM university_list.user_info WHERE identity='${userID}'`, function (err,results){
+        var rows = JSON.parse(JSON.stringify(results[0]));
+        res.send(rows);
+        
+    })
+})
+
 
 module.exports = router;
