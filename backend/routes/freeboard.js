@@ -43,6 +43,54 @@ router.get("/:idx",function(req,res,err){
         }
     })
 });
+router.get("/:idx/comment",function(req,res,err){
+    var id= req.params.idx;
+    console.log("id :"+ id);
+    connection.query(`select * from university_list.freecommand WHERE boardID=${id}`, function(err,rows,fields){
+        if(!err){
+            res.send(rows);
+            console.log(rows);
+
+        }
+        else{
+            console.log(err);
+            res.end();
+        }
+    })
+});
+
+router.post("/:idx/comment",function(req,res,err){
+    var id= req.params.idx;
+    console.log("id in post :"+ id);
+    var body = req.body;
+    var boardID=body.boardID;
+    var userID = body.userID;
+    var content = body.content;
+    var writer= body.writer;
+    const date = new Date();
+    var currentDate = date.toFormat('YYYY-MM-DD');
+    console.log("??"+`${boardID} ${userID} ${content} ${writer} ${currentDate}`)
+    connection.query(`INSERT INTO university_list.freecommand (boardID, content, userID, date, writer) VALUES ('${boardID}','${content}','${userID}','${currentDate}','${writer}')`, 
+    function(err,rows,fields){
+        if(err){
+            res.send(err);
+            console.log(err);
+        }
+    });
+    res.end();
+});
+router.delete("/comment/:idx",function(req,res,err){//자신의 댓글을 삭제할 수 있는 부분!
+    var id= req.params.idx;
+    console.log("id :"+ id);
+    connection.query(`delete from university_list.freecommand where idx=${id}`, function(err,rows,fields){
+        if(err){
+            res.send(err);
+            console.log(err);
+        }
+    });
+    res.end();
+});
+
 
 router.post("/write",function(req,res,err){
     var body = req.body;

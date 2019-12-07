@@ -24,7 +24,7 @@
     <span style="font-size: 30px;" >Content</span>
     <br>
     <br>
-    <input type="textarea" v-model="content" style="width: 1100px; height: 400px" placeholder = "Content" required>
+    <textarea v-model="content" style="width: 1100px; height: 400px" placeholder = "Content" required></textarea>
     <br>
     <br>
     <button id="writeButton" v-on:click="postContent" style ="margin-left: 500px; width:100px; height: 40px; font-size: 20px;">Create</button>
