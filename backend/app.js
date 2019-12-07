@@ -40,6 +40,7 @@ app.use('/users', usersRouter);
 app.use('/api/main', mainRouter);
 app.use('/api/universityList', universityRouter);
 app.use('/api/freeboard',freeBoardrouter);
+
 app.use('/api/users',userInfoRouter);
 
 
