@@ -32,6 +32,11 @@
                 <span style ="color : #566270;">{{ board.email }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;" :title="board.title">{{ checkBoardTitle(board.title) }}</span></router-link>
+                <div v-if ="checkBoardUser(board.userID)">
+                    <hr>
+                    <button>Delete</button> | 
+                    <button>Modify</button>
+                </div>
             </div>
         </div>
 
@@ -56,7 +61,7 @@
 import axios from 'axios';
 //freeboard를 DB에서 가져올 때 글쓴이랑 이메일이랑 제목을 가져와서 일단 보여주도록
 
-var freeBoardExample = [{
+/*var freeBoardExample = [{
     url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
     title : "Hello",
     email : "nahyun1234@ajou.ac.kr",
@@ -92,14 +97,16 @@ var freeBoardExample = [{
     email : "sooyoung1234@ajou.ac.kr",
     writer : "nahyun"
 }
-];
+];*/
+var boarduser = '';
 
 export default {
     name: 'free',
     data() {
         return {
-            freeBoards : freeBoardExample,
-            viewMethod : 'grid' // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
+            freeBoards : '',
+            viewMethod : 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
+            modifyON : false,
         }
     },
     methods: {
@@ -112,13 +119,25 @@ export default {
         checkBoardTitle(title){
             if(title.length>25) return title.substring(0,25)+"...";
             else return title;
+        },
+        checkBoardUser : function(boardUserID){ // 자기가 쓴 글인 경우 수정 및 삭제를 할 수 있는 메뉴? 보여주는 플래그
+            if (boardUserID == boarduser)
+            {
+                return true;
+            }
+            else return false;
+        },
+        BoardModify : function() {
+            this.modifyON = !this.modifyON;
         }
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
-        const result = axios.get("/freeboard");
-        this.freeBoards = result;
-        const loginresult = await axios.get("/login");
+        const result = await axios.get("/api/freeboard");
+        this.freeBoards = result.data;
+        //alert(this.freeBoards);
+        const loginresult = await axios.get("/api/login");
         this.sessionCheck = loginresult.data.logined;
+        boarduser = loginresult.data.name;//로그인한 유저 아이디
     }
 }
 </script>
@@ -136,18 +155,17 @@ export default {
     border : 2px solid;
     color : #E0E3DA;
     border-radius : 5px;
-    height: 330px;
+    height: 350px;
     width: 260px;
     margin-left : 120px;
     margin-right : 85px;
-    margin-top : 50px;
+    margin-top : 30px;
     transition: 0.5s;
      /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
 }
 #board:hover{
     border: 2px solid #ff7473;
     border-radius : 5px;
-   
 
 }
 .viewChange{
@@ -177,5 +195,6 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     height : 200px; 
     width: 240px;
 }
+
     
 </style>

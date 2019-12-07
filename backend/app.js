@@ -39,7 +39,7 @@ app.use('/users', usersRouter);
 app.use('/api/main', mainRouter);
 
 app.use('/api/universityList', universityRouter);
-app.use('/freeboard',freeBoardrouter);
+app.use('/api/freeboard',freeBoardrouter);
 
 
 // catch 404 and forward to error handler

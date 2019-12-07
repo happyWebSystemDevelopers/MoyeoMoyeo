@@ -15,11 +15,14 @@ connection.connect(function (err) {
 router.get("/",function(req,res,err){
     connection.query('select * from university_list.freeboard', function(err,rows,fields){
         if(!err){
-            console.log(rows);
+            var boardresult = JSON.parse(JSON.stringify(rows));
+            res.send(boardresult);
+            console.log(boardresult);
             //console.log(fields);
         }
         else{
             console.log(err);
+            res.end();
         }
     })
 });

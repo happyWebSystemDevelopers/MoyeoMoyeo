@@ -3,11 +3,22 @@ var router = express.Router();
 const request = require('request');//api 위치이동
 const convert = require('xml-js');//api 위치이동
 const session = require('express-session');
+var myDatabase = require('../db/db_conn');
+var connection = myDatabase.init();
 
-var userList = new Array();
+
+
+
+
+connection.connect(function (err) {   
+    if (err) {     
+      console.error('mysql connection error');     
+      console.error(err);     
+      throw err;   
+    } 
+});
+
 /* GET home page. */
-
-
 
 var indexCounter = 0;
 var userList = new Array();
@@ -16,12 +27,11 @@ var userList = new Array();
     res.render('index', { title: 'Express' });
 });*/
 
-
-var loginData = {
+/*var loginData = {
     id : "nahyun",
     pwd : "1212",
     nickname : "nahyun"
-};
+};*/
 
 router.use(session({
     key: 'sid',//세션의 키값
@@ -50,19 +60,35 @@ router.post("/api/login",function(req,res,err){
         id : req.body.id,
         pwd: req.body.pwd,
     };
-    if(loginData.id == userInfo.id && userInfo.pwd == loginData.pwd){
-        console.log("로그인 성공");
-        sess.logined = true;
-        sess.name = userInfo.id;
-        console.log(sess);
-        res.send(sess);
-    }
-    else {
-            console.log("로그인 실패");
+    connection.query(`SELECT identity,password,nickname FROM university_list.user_info WHERE identity='${userInfo.id}'`,
+        function(err,results){
+            if (results != ""){
+            var rows = JSON.parse(JSON.stringify(results[0]));
+            console.log(rows.identity, rows.password);
+            if(rows.identity == userInfo.id && userInfo.pwd == rows.password){
+                console.log("로그인 성공");
+                sess.logined = true;
+                sess.name = rows.identity;
+                sess.nickname = rows.nickname;
+                console.log(sess);
+                res.send(sess);
+            }
+            else {
+                    console.log("로그인 실패");
+                    sess.logined = false;
+                    res.send(sess);
+                    //res.end();
+            }
+        
+        }
+        else {
+            console.log("회원 정보가 없음.")
             sess.logined = false;
             res.send(sess);
-            //res.end();
-    }   
+        }
+    });
+
+    
 });
 
 router.delete("/api/logout",function(req,res,err) {
