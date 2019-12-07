@@ -4,8 +4,9 @@ var mysql = require('mysql');
 
 var myDataBase=require('../db/db_conn.js');
 var connection = myDataBase.init();
-var selectedNickName = '';
 var selectedEmail = '';
+var selectedNickName = {};
+
 
 connection.connect(function (err) {
     if (err) {
@@ -17,7 +18,7 @@ connection.connect(function (err) {
 router.get('/getNickName/:userid',function(req,res,next){
     connection.query(`SELECT nickname FROM university_list.user_info WHERE identity='${req.params.userid}'`,
         function(err,results){
-            selectedNickName= results;
+            selectedNickName= results.nickname;
             res.send(selectedNickName);
         });
 });

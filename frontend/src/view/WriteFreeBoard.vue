@@ -50,16 +50,14 @@ export default {
     },
 
     async beforeCreate() {
+
         const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
-       /* const resultawait axios.get('/api/users/getNickName/'+userid)
-            .then((response)=>{
-                userNickName = response.data;
-            });*/
         const resultEmail = await axios.get('/api/users/getEmail/'+userid);
         useremail = resultEmail.data;
-        alert(useremail);
+        userNickName = result.data.nickname;
+
     },
     methods: {
         postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
