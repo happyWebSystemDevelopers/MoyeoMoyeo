@@ -47,7 +47,6 @@
     </div>
 </template>
 <script>
-
 import axios from 'axios';
 //freeboard를 DB에서 가져올 때 글쓴이랑 이메일이랑 제목을 가져와서 일단 보여주도록
 
@@ -76,7 +75,6 @@ export default {
             const res = await axios.get("/api/freeboard/moreUserInfo/"+alertUserID);
             //alert(res.data);
             alert("Writer : "+res.data.nickname +" , Email : "+res.data.email);
-
         },
         deleteBoard : async function(boardIndex) {
             const res = await axios.delete("/api/freeboard/delete/"+boardIndex);
@@ -99,7 +97,6 @@ export default {
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
         const result = await axios.get("/api/freeboard");
         this.freeBoards = result.data;
-
         const loginresult = await axios.get("/api/login");
         this.sessionCheck = loginresult.data.logined;
         this.boarduser = loginresult.data.name;//로그인한 유저 아이디
@@ -126,12 +123,12 @@ export default {
     margin-right : 85px;
     margin-top : 30px;
     transition: 0.5s;
+    text-align: center;
      /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
 }
 #board:hover{
     border: 2px solid #ff7473;
     border-radius : 5px;
-
 }
 .viewChange{
     padding-top: 2px;
@@ -150,6 +147,8 @@ export default {
 .linedBoard{
     margin-left: 140px;
     width : 1230px;
+     line-height: 12px;
+    font-size: 14px;
 }
 td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성자, 작성자 이메일, 제목)*/
         height: 30px;
@@ -167,8 +166,9 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 55px;
-    margin-left : 50px;
-}
+    margin-left: 20px;
+    margin-right: 20px;
+ }
 .moreService2 {
     background-color :#84B1ED;
     border : 1.2px solid #84B1ED;
@@ -176,7 +176,7 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 200px;
-    margin-left : 30px;
+   
 }
     
 </style>

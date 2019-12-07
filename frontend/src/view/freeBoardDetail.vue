@@ -114,7 +114,8 @@
      margin-left: 11%;
     display: inline-block;
     border : 1.5px dashed #ffc952;
-    padding : 40px;
+    padding : 20px;
+    padding-bottom: 4%;
     width: 75%;
     color: rgb(114, 113, 113);
 
@@ -169,13 +170,15 @@
 {
     font-weight: bold;
     font-size: 24px;
-    margin-left: 2%;
+    margin-left: 3%;
     margin-bottom: 30px;
+    margin-top: 30px;
 }
 #commentData{/*전체 댓글을 묶는 틀입니다*/
     margin-left: 5%;
     margin-right: 5%;
     word-break: break-all;
+    margin-bottom: 30px;
 }
 #writeComment{
     width: 50%;
