@@ -47,7 +47,7 @@ export default {
         }
     },
     async beforeCreate() {
-        const result = await axios.get("/login");
+        const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
     },
@@ -64,10 +64,10 @@ export default {
             }
             else {
                 if(this.imageURL != ''){
-                     axios.post("/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: "nahyum"});
+                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content:this.content, userID : userid, writer: "nahyum"});
                 }
                 else {
-                     axios.post("/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: "nahyum"});
+                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: "nahyum"});
                 }
             this.$router.push({
                 name: 'free'
