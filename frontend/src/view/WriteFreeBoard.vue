@@ -49,13 +49,11 @@ export default {
     },
 
     async beforeCreate() {
+
         const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
-        axios.get('/api/users/getNickName/'+userid)
-            .then((response)=>{
-                userNickName = response.data;
-            });
+        userNickName = result.data.nickname;
     },
     methods: {
         postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거

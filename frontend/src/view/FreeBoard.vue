@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class ="free">
     <!--<img id="freeboardImg" src="../assets/freeBoard.png" style ="height : 60px; width:220px; margin-left: 650px;">
     <router-link to ="/writefreeboard"><button id="createButton" style ="margin-left: 400px; width:100px; height: 40px; font-size: 20px;">Create</button></router-link>
@@ -23,8 +23,9 @@
     <!--<div v-for = "board in freeBoards">-->
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
-            <div id ="board" v-for ="board in freeBoards" :key ="board.idx">
-                <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.url" v-bind:src="'images/' + board.url" >
+
+            <div id ="board" v-for ="(board, index) in freeBoards" :key ="board.title">
+                <router-link :to="{name : 'freeBoardDetail', params: {idx : index}}"><img class="boardImg" v-if="board.image" v-bind:src="board.image.data" >
                     <img class="boardImg" v-else src ="images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
