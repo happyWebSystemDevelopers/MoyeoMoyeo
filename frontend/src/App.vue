@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div id="app">
     <div id="menu">
       <div class="menuToggle">
@@ -125,8 +125,8 @@ export default {
       alert("Logout Success!");
       setTimeout(()=> {
         location.replace('/'); //로그아웃하면 메인으로 가게 수정. (기존엔 free board 등에서 로그아웃하면 404 떴음)
-        location.reload();
-    },3000);    
+       // location.reload();//freeboard 로그아웃 freeboard link 남음. 덮어씌워서 따라서 이걸 없앰
+      },3000);
     }
   }
 }
@@ -220,7 +220,7 @@ a:hover {
  
 }
 .menuToggle{
-  width: 30x;
+  width: 30px;
   height: 30px;
   float: right;
   

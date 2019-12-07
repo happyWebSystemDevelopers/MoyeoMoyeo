@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var myDatabase = require('../db/db_conn');
+var myDatabase = require('../db/db_conn.js');
 var connection = myDatabase.init();
 var dateUtils = require('date-utils');
-  
+// var mysql = require('mysql');
+
+
 connection.connect(function (err) {   
     if (err) {     
       console.error('mysql connection error');     
@@ -30,21 +32,15 @@ router.post("/write",function(req,res,err){
     var writer = body.writer;
     var userID = body.userID;
     var content = body.content;
-    //var image = body.url;
+    var image = body.url;
     const date = new Date();
     var currentDate = date.toFormat('YYYY-MM-DD');
-    console.log(currentDate);
-    //date.subString(10);
-    connection.query('insert into university_list.freeboard (userID, title, writer, content, date) values (?,?,?,?,?)', [userID,title,writer,content,currentDate],
-    function(err,rows,fields) {
-        if(!err){
-            console.log(rows);
-        }
-        else {
-            console.log(err);
-        }
-    })
+    connection.query(`INSERT INTO university_list.freeboard (userID, title, writer, content,
+     date,image) VALUES ('${userID}','${title}','${writer}','${content}','${currentDate}','${image}')`,
+        function(err,results){
 
+    });
+res.end();
 });
 
 module.exports = router;
