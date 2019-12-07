@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div id="app">
     <div id="menu">
       <div class="menuToggle">
@@ -14,7 +14,7 @@
         <span style="color:#909090; font-size:13px; ">My page |</span>
         
         <button style="color:#909090; font-size:13px; margin-right:12px; background-color : white; border : 1px solid white;" v-on:click="logout"> Logout </button>
-        <span id="logoutClick" style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> Yeong In Park </span>
+        <span id="logoutClick" style="color:#34314c; font-size:15px; margin-right:5px;  font-weight:bold;"> {{ userName }} </span>
       <img id="userImg" src="./assets/userImage.png">
       </div>
     </div>
@@ -112,11 +112,13 @@ export default {
     return {
       sessionCheck : false,
       logoutCheck : false,
+      userName:''
     }
   },
   async beforeCreate() {
     const result = await axios.get("/api/login");
     this.sessionCheck = result.data.logined;
+    this.userName = result.data.nickname;
   }, 
   methods : {
     logout : function() {
@@ -125,8 +127,8 @@ export default {
       alert("Logout Success!");
       setTimeout(()=> {
         location.replace('/'); //로그아웃하면 메인으로 가게 수정. (기존엔 free board 등에서 로그아웃하면 404 떴음)
-        location.reload();
-    },3000);    
+       // location.reload();//freeboard 로그아웃 freeboard link 남음. 덮어씌워서 따라서 이걸 없앰
+      },3000);
     }
   }
 }
@@ -220,7 +222,7 @@ a:hover {
  
 }
 .menuToggle{
-  
+
   height: 30px;
   float: right;
   
