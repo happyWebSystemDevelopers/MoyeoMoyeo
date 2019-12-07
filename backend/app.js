@@ -16,6 +16,7 @@ var mainRouter = require('./routes/mainBoard');
 
 var universityRouter = require('./routes/university');
 var freeBoardrouter = require('./routes/freeboard');
+var gatheringBoardrouter = require('./routes/gathering');
 
 var bodyParser = require('body-parser');
 
@@ -40,6 +41,7 @@ app.use('/users', usersRouter);
 app.use('/api/main', mainRouter);
 app.use('/api/universityList', universityRouter);
 app.use('/api/freeboard',freeBoardrouter);
+app.use('/api/gatheringboard', gatheringBoardrouter);
 
 app.use('/api/users',userInfoRouter);
 
