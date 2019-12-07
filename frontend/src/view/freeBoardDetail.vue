@@ -16,7 +16,6 @@
                 <!--이미지 url추가해야함-->
             </div>
         </div>
-      
     </div>
     <div id="freecomment">
         <div id="commentTitle">comment</div>

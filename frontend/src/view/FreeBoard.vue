@@ -49,6 +49,7 @@
 <script>
 import axios from 'axios';
 //freeboard를 DB에서 가져올 때 글쓴이랑 이메일이랑 제목을 가져와서 일단 보여주도록
+
 export default {
     name: 'free',
     data() {

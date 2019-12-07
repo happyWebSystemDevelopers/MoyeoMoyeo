@@ -1,13 +1,27 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div class="write">
-    <img id="freeboardImg" src="../assets/modifyfreeboard.png" style ="height: 42px; width:250px; margin-left: 150px;">
+    <div class="writegathering">
+    <img id="gatheringboardImg" src="../assets/writegatheringBoard.png" style ="height: 42px; width:300px; margin-left: 150px;">
     <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 120px; margin-right: 120px; border-style: dashed;"/>
     <br>
     <div class ="writeboard">
     <span style="font-size: 30px;" >Title</span>
     <br>
     <br>
-    <input type="text" v-model="title" style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" :placeholder ="boardtitle" required>
+    <input type="text" v-model="title" style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" placeholder ="Title" required>
+    <br>
+    <br>
+    <span style="font-size: 30px;" >Category</span>
+    <br>
+    <br>
+    <select v-model="gatheringCategory" required>
+        <option value="university">University</option>
+        <option value="study">Study</option>
+        <option value="contestExhibit">Contest Exhibit</option>
+        <option value="culture">Culture Event</option>
+        <option value="volunteerWork">Volunteer Work</option>
+        <option value="play">Play</option>
+        <option value="etc">Etc</option>
+    </select>
     <br>
     <br>
     <span style="font-size: 30px;">Image</span>
@@ -24,10 +38,10 @@
     <span style="font-size: 30px;" >Content</span>
     <br>
     <br>
-    <input type="textarea" v-model="content" style="width: 1100px; height: 400px" :placeholder = "boardcontent" required>
+    <textarea v-model="content" style="width: 1100px; height: 400px" placeholder = "Content" required></textarea>
     <br>
     <br>
-    <button id="modifyButton" v-on:click="modifyContent" style ="margin-left: 500px; width:100px; height: 40px; font-size: 20px;">Modify</button>
+    <button id="writeButton" v-on:click="postContent" style ="margin-left: 500px; width:100px; height: 40px; font-size: 20px;">Create</button>
     </div>
     </div>
 </template>
@@ -40,34 +54,26 @@ var imageCount = 0;
 var imageURL ='';
 var userNickName = '';
 var useremail ='';
-
 export default {
-    name: 'writefreeboard',
+    name: 'writegatheringboard',
     data() {
         return {
             title : '',
             content: '',
-            boardtitle : '',
-            boardcontent : '',
+            gatheringCategory : '',
         }
     },
-
     async beforeCreate() {
-
         const result = await axios.get("/api/login");
         this.sessionCheck = result.data.logined;
         userid = result.data.name;
         const resultEmail = await axios.get('/api/users/getEmail/'+userid);
         useremail = resultEmail.data;
         userNickName = result.data.nickname;
-        const boardresult = await axios.get("/api/freeboard/" + this.$route.params.idx);
-        this.boardtitle = boardresult.data.title;
-        this.boardcontent = boardresult.data.content;
 
     },
     methods: {
-        modifyContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
-            var boardindex = this.$route.params.idx;
+        postContent: function() { //제목이랑 내용 없이 완료 버튼 누르면 경고창 나오는거
             if(this.title == "" || this.content == "")
             {
                 alert("Please write Title and Content")
@@ -78,15 +84,15 @@ export default {
                 //document.getElementById("userfileImg").removeChild(document.getElementById("userfileImg").firstChild);
             }
             else {
+
                 if(this.imageURL != ''){
-                     axios.put("/api/freeboard/modify/"+boardindex,{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.post("/api/gatheringboard/write",{title: this.title, url :imageURL, category : this.gatheringCategory,content : this.content, userID : userid, writer: userNickName, email : useremail});
                 }
                 else {
-                     axios.put("/api/freeboard/modify/"+boardindex,{title: this.title, content :this.content, userID : userid, writer: userNickName, email : useremail});
-
+                     axios.post("/api/gatheringboard/write",{title: this.title, content :this.content, category : this.gatheringCategory,userID : userid, writer: userNickName, email : useremail});
                 }
             this.$router.push({
-                name: 'free'
+                name: 'gathering'
             });
                 this.title='';
                 this.content='';

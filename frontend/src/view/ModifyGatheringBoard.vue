@@ -10,6 +10,21 @@
     <input type="text" v-model="title" style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" :placeholder ="boardtitle" required>
     <br>
     <br>
+    <span style="font-size: 30px;" >Category</span>
+    <br>
+    <br>
+    <select v-model="gatheringCategory" required>
+        <option value="" disabled selected>{{ boardcategory }}</option>
+        <option value="university">University</option>
+        <option value="study">Study</option>
+        <option value="contestExhibit">Contest Exhibit</option>
+        <option value="culture">Culture Event</option>
+        <option value="volunteerWork">Volunteer Work</option>
+        <option value="play">Play</option>
+        <option value="etc">Etc</option>
+    </select>
+    <br>
+    <br>
     <span style="font-size: 30px;">Image</span>
     <br>
     <br>
@@ -49,6 +64,8 @@ export default {
             content: '',
             boardtitle : '',
             boardcontent : '',
+            boardcategory : '',
+            gatheringCategory :'',
         }
     },
 
@@ -60,9 +77,10 @@ export default {
         const resultEmail = await axios.get('/api/users/getEmail/'+userid);
         useremail = resultEmail.data;
         userNickName = result.data.nickname;
-        const boardresult = await axios.get("/api/freeboard/" + this.$route.params.idx);
+        const boardresult = await axios.get("/api/gatheringboard/" + this.$route.params.idx);
         this.boardtitle = boardresult.data.title;
         this.boardcontent = boardresult.data.content;
+        this.boardcategory = boardresult.data.category;
 
     },
     methods: {
@@ -79,10 +97,10 @@ export default {
             }
             else {
                 if(this.imageURL != ''){
-                     axios.put("/api/freeboard/modify/"+boardindex,{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.put("/api/gatheringboard/modify/"+boardindex,{title: this.title, category : this.gatheringCategory, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
                 }
                 else {
-                     axios.put("/api/freeboard/modify/"+boardindex,{title: this.title, content :this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.put("/api/gatheringboard/modify/"+boardindex,{title: this.title, category : this.gatheringCategory,content :this.content, userID : userid, writer: userNickName, email : useremail});
 
                 }
             this.$router.push({
