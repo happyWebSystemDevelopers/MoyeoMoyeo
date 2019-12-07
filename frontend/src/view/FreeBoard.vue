@@ -33,10 +33,14 @@
                 <span style ="color : #566270;">{{ board.email }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;" :title="board.title">{{ checkBoardTitle(board.title) }}</span></router-link>
-                <div v-if ="checkBoardUser(board.userID)">
+                <div class = "moreService" v-if ="checkBoardUser(board.userID)">
                     <hr>
                     <button>Delete</button> | 
                     <button>Modify</button>
+                </div>
+                <div class = "moreService" v-else>
+                    <hr>
+                    <button v-on:click="alertMoreInfo(board.userID)">More user Info</button>
                 </div>
             </div>
         </div>
@@ -132,8 +136,10 @@ export default {
             }
             else return false;
         },
-        BoardModify : function() {
-            this.modifyON = !this.modifyON;
+        alertMoreInfo : function(alertUserID) { // 다른사람이 쓴 글에서 그 글쓴이 정보 alert
+            const res = axios.get("/freeboard/moreUserInfo/"+alertUserID);
+            alert("Writer : "+res.nickname+" , Email : "+res.email);
+
         }
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
@@ -160,7 +166,7 @@ export default {
     border : 2px solid;
     color : #E0E3DA;
     border-radius : 5px;
-    height: 350px;
+    height: 370px;
     width: 260px;
     margin-left : 120px;
     margin-right : 85px;
