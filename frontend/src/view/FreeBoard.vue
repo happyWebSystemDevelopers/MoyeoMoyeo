@@ -33,7 +33,7 @@
                 <span style ="color : #566270;">{{ board.email }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;" :title="board.title">{{ checkBoardTitle(board.title) }}</span></router-link>
-                <div  v-if ="checkBoardUser(board.userID)">
+                <div v-if="checkBoardUser(board.userID)">
                     <hr>
                     <button class = "moreService" v-on:click="deleteBoard(board.idx)">Delete</button>
                     <router-link :to="{name : 'modifyFreeBoard', params: {idx : board.idx}}"><button class = "moreService">Modify</button></router-link>
@@ -66,56 +66,14 @@
 import axios from 'axios';
 //freeboard를 DB에서 가져올 때 글쓴이랑 이메일이랑 제목을 가져와서 일단 보여주도록
 
-/*var freeBoardExample = [{
-    url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hello",
-    email : "nahyun1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi7",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi3",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "Hi11",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-},
-{
-    url : "freeBoardDefault.png", //그 첨부파일 하는거 과제 1 참고하기 
-    title : "VeeeeeeeeeeeeeeeeeeeeeeeeeeeryLooooooooooooooooooooooooongTiiiiiiiiiiiiiiiiiiiiiitle",
-    email : "sooyoung1234@ajou.ac.kr",
-    writer : "nahyun"
-}
-];*/
-
-var boarduser = '';
-
-
 export default {
     name: 'free',
     data() {
         return {
-
             freeBoards : '',
             viewMethod : 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
             modifyON : false,
-
+            boarduser :'',
         }
     },
     methods: {
@@ -129,13 +87,6 @@ export default {
             if(title.length>25) return title.substring(0,25)+"...";
             else return title;
         },
-        checkBoardUser : function(boardUserID){ // 자기가 쓴 글인 경우 수정 및 삭제를 할 수 있는 메뉴? 보여주는 플래그
-            if (boardUserID == boarduser)
-            {
-                return true;
-            }
-            else return false;
-        },
         alertMoreInfo : async function(alertUserID) { // 다른사람이 쓴 글에서 그 글쓴이 정보 alert
             const res = await axios.get("/api/freeboard/moreUserInfo/"+alertUserID);
             //alert(res.data);
@@ -145,9 +96,20 @@ export default {
         deleteBoard : async function(boardIndex) {
             const res = await axios.delete("/api/freeboard/delete/"+boardIndex);
             if(res.data == true) alert("Success Delete");
-            location.reload();
+            const result = await axios.get("/api/freeboard");
+            this.freeBoards = result.data;
+            this.router.push({
+                name:'free'
+            })
+ 
         },
-
+        checkBoardUser : function(boardUserID) { // 자기가 쓴 글인 경우 수정 및 삭제를 할 수 있는 메뉴? 보여주는 플래그
+            if (boardUserID == this.boarduser)
+            {
+                return true;
+            }
+            else return false;
+        },
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
         const result = await axios.get("/api/freeboard");
@@ -155,7 +117,7 @@ export default {
 
         const loginresult = await axios.get("/api/login");
         this.sessionCheck = loginresult.data.logined;
-        boarduser = loginresult.data.name;//로그인한 유저 아이디
+        this.boarduser = loginresult.data.name;//로그인한 유저 아이디
     }
 }
 </script>

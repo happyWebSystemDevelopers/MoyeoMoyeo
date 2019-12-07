@@ -20,7 +20,6 @@
                 <!--이미지 url추가해야함-->
             </div>
         </div>
-      
     </div>
     <div id="freecomment">
         comment

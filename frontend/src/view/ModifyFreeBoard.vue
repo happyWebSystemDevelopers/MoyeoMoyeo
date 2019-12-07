@@ -7,7 +7,7 @@
     <span style="font-size: 30px;" >Title</span>
     <br>
     <br>
-    <input type="text" v-model="title" style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" placeholder ="Title" required>
+    <input type="text" v-model="title" style="height:25px; width: 1100px; border-left: none; border-right: none; border-top:none;" :placeholder ="boardtitle" required>
     <br>
     <br>
     <span style="font-size: 30px;">Image</span>
@@ -24,7 +24,7 @@
     <span style="font-size: 30px;" >Content</span>
     <br>
     <br>
-    <input type="textarea" v-model="content" style="width: 1100px; height: 400px" placeholder = "Content" required>
+    <input type="textarea" v-model="content" style="width: 1100px; height: 400px" :placeholder = "boardcontent" required>
     <br>
     <br>
     <button id="modifyButton" v-on:click="modifyContent" style ="margin-left: 500px; width:100px; height: 40px; font-size: 20px;">Modify</button>
@@ -40,12 +40,15 @@ var imageCount = 0;
 var imageURL ='';
 var userNickName = '';
 var useremail ='';
+
 export default {
     name: 'writefreeboard',
     data() {
         return {
             title : '',
             content: '',
+            boardtitle : '',
+            boardcontent : '',
         }
     },
 
@@ -57,6 +60,9 @@ export default {
         const resultEmail = await axios.get('/api/users/getEmail/'+userid);
         useremail = resultEmail.data;
         userNickName = result.data.nickname;
+        const boardresult = await axios.get("/api/freeboard/" + this.$route.params.idx);
+        this.boardtitle = boardresult.data.title;
+        this.boardcontent = boardresult.data.content;
 
     },
     methods: {
