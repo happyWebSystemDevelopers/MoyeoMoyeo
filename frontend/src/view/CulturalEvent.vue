@@ -1,7 +1,7 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class ="caltural">
    
-    <img id="culturalboardImg" src="../assets/freeBoard.png" style ="height : 60px; width:220px; margin-left: 42%;">
+    <img id="culturalboardImg" src="../assets/culturalboard.png" style ="height : 60px; width:220px; margin-left: 42%;">
     
     <button v-if="viewMethod=='grid'" v-on:click="toLined" class="cviewChange"><img class="cbtnImg" src="../assets/lined.png"></button> <!--그리드/라인 보기 방식 변경하는 버튼-->
     <button v-if="viewMethod=='lined'" v-on:click="toGrid" class="cviewChange"><img class="cbtnImg" src="../assets/grided.png"></button>
@@ -10,6 +10,16 @@
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="cgridBoard">
             <div id ="cboard" v-for ="(board, index) in culturalEvents" :key ="board.name">
+                <router-link :to ="{name : 'culturalEventDetail2', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="checkUrl(board.imgurl)" >
+                    <img class="cboardImg" v-else src ="images/poster_4.jpg" ></router-link>
+                <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
+                <span style ="color : #566270;">{{ board.type }}</span>
+                <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
+                <span style ="color : #566270;">{{ board.addr }}</span>
+                <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
+                <span style ="color : #566270;">{{ board.name }}</span>
+            </div>
+            <div id ="cboard" v-for ="(board, index) in culturalPlaces" :key ="board.name">
                 <router-link :to ="{name : 'culturalEventDetail', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="board.imgurl" >
                     <img class="cboardImg" v-else src ="images/poster_4.jpg" ></router-link>
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
@@ -47,8 +57,9 @@ export default {
     name: 'cultural',
     data() {
         return {
-                culturalEvents : [],
-                viewMethod : 'grid',
+            culturalPlaces : [],
+            culturalEvents : [],
+            viewMethod : 'grid',
         }
     },
     methods: {
@@ -58,12 +69,21 @@ export default {
         toGrid : function(){ // 라인 보기 방식일 때 누르면 그리드 보기로 바뀜
             this.viewMethod = 'grid';
         },
+        checkUrl(url){
+            if(String(url).match(/http/g).length==2)
+            {
+                return url.substring(26);
+            } 
+            return url;
+        }
        
 
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
              const result = await axios.get("/api/cultural");
-            this.culturalEvents = result.data;
+            this.culturalPlaces = result.data;
+            const result2 = await axios.get("/api/cultural/data");
+            this.culturalEvents = result2.data;
            // alert(this.culturalEvents[0])
 
     }

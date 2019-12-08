@@ -16,7 +16,7 @@
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
         {{data.addr}}
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
-        <img :src="data.imgurl" style="height:400px; width:500px;"/>
+        <img :src="checkUrl(data.imgurl)" style="height:400px; width:500px;"/>
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
         
             <div id="dataContent">
@@ -42,13 +42,20 @@
             }
         },
         methods : {
+        checkUrl(url){
+            if(String(url).match(/http/g).length==2)//이후에 수정하겠씁니다!
+            {
+                return url.substring(26);
+            } 
+            return url;
+        }
           
           
         },
         async beforeCreate() {
      
         var id = this.$route.params.idx
-        const CulturalResult = await axios.get("/api/cultural/"+id);
+        const CulturalResult = await axios.get("/api/cultural/data/"+id);
         this.data = CulturalResult.data;
         this.content=this.data.content;
       

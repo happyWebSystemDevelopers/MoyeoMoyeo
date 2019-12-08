@@ -38,7 +38,7 @@ router.post("/write",function(req,res,err){
     const date = new Date();
     var currentDate = date.toFormat('YYYY-MM-DD');
     connection.query(`INSERT INTO university_list.gatheringboard (userID, title, writer, content,
-     date,image,email, category) VALUES ('${userID}','${title}','${writer}','${content}','${currentDate}','${image}','${email}', '${category}')`,
+     date, image, email, category) VALUES ('${userID}','${title}','${writer}','${content}','${currentDate}','${image}','${email}', '${category}')`,
         function(err,results){
 
     });

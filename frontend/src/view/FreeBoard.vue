@@ -177,6 +177,7 @@
     td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성자, 작성자 이메일, 제목)*/
         height: 30px;
         line-height: 30px;
+
     }
     .boardImg{
         margin: 10px;

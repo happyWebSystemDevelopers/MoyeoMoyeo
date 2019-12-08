@@ -113,9 +113,8 @@ res.end();
 router.get("/moreUserInfo/:userID", function(req,res,err){
     var userID = req.params.userID;
     connection.query(`SELECT email, nickname FROM university_list.user_info WHERE identity='${userID}'`, function (err,results){
-        var rows = JSON.parse(JSON.stringify(results[0]));
-        console.log(rows);
-        res.send(rows);
+        
+        res.send(results[0]);
     })
 });
 
