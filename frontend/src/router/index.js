@@ -11,6 +11,7 @@ import FreeDetail from '../view/freeBoardDetail.vue'
 import writeFreeBoard from '../view/WriteFreeBoard'
 import GatheringDetail from '../view/GatheringBoardDetail.vue'
 import EventDetail from '../view/CulturalEvnentDetail'
+import EventDetail2 from '../view/tempCulturalEvnentDetail'//이거 나중에 코드리뷰전 수정하겠스비다
 import modifyFreeBoard from '../view/ModifyFreeBoard'
 import writeGatheringBoard from '../view/WriteGatheringBoard'
 import modifyGatheringBoard from '../view/ModifyGatheringBoard'
@@ -68,6 +69,11 @@ const routes = [
     name : 'culturalEventDetail',
     component : EventDetail
   },
+  {
+    path : '/cultural/data:idx',
+    name : 'culturalEventDetail2',
+    component : EventDetail2
+  },//이거 나중에 수정하겠습니다!
   {
     path : '/modifyfreeboard/:idx',
     name : 'modifyFreeBoard',

@@ -166,8 +166,8 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 55px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: -30px;
+    margin-right: 0px;
  }
 .moreService2 {
     background-color :#84B1ED;
@@ -176,7 +176,6 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 200px;
-   
 }
     
 </style>

@@ -124,18 +124,18 @@ export default {
     border : 2px solid;
     color : #E0E3DA;
     border-radius : 5px;
-    height: 400px;
+    height: 370px;
     width: 260px;
     margin-left : 120px;
     margin-right : 85px;
     margin-top : 30px;
     transition: 0.5s;
+    text-align: center;
      /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
 }
 #board:hover{
     border: 2px solid #ff7473;
     border-radius : 5px;
-
 }
 .viewChange{
     padding-top: 2px;
@@ -154,6 +154,8 @@ export default {
 .linedBoard{
     margin-left: 140px;
     width : 1230px;
+     line-height: 12px;
+    font-size: 14px;
 }
 td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성자, 작성자 이메일, 제목)*/
         height: 30px;
@@ -171,8 +173,9 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 55px;
-    margin-left : 50px;
-}
+    margin-left: -30px;
+    margin-right: 0px;
+ }
 .moreService2 {
     background-color :#84B1ED;
     border : 1.2px solid #84B1ED;
@@ -180,7 +183,6 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     color : white;
     height : 20px;
     width : 200px;
-    margin-left : 30px;
 }
     
 </style>

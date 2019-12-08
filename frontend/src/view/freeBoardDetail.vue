@@ -1,6 +1,6 @@
 <template>
     <div >
-    <img id="freeboardImg" src="../assets/freeBoard.png" style ="height:60px; width:220px; margin-left: 42%;">
+    <img id="freeboardImg" src="../assets/freeBoard.png" style ="height:80px; width:280px; margin-left: 42%;">
     <router-link to ="/freeboard"><button id="gobackButton" >Go Back</button></router-link>
     <hr align="left" style ="color : #dddfe6; border: 2px solid; margin-left: 120px; margin-right: 120px;"/>
     <div class ="freeBoardDetail">
