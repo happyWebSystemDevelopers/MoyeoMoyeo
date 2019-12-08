@@ -29,17 +29,17 @@ router.get("/free", function(req, res, next) {// 새로운거 5개 제목받아�
     })
    
 });
-/*
+
 router.get("/gathering", function(req, res, next) {
-    connection.query('SELECT title FROM university_list.gathering_table', function(err, datas){
-        if(err) console.log("free board err!");
+    connection.query('SELECT * FROM university_list.gatheringboard ORDER BY date DESC limit 5', function(err, datas){
+        if(err) console.log("gathering board err!");
         else{
             res.send(datas);
         }
     })
    
 });
-
+/*
 router.get("/cultural", function(req, res, next) {
     connection.query('SELECT title FROM university_list.cultural_table', function(err, datas){
         if(err) console.log("free board err!");

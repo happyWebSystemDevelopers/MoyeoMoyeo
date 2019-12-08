@@ -12,15 +12,16 @@
                     </div>
                 </div>
                 <div class="boardContents"> <!--gathering board 최신글 5개 보여줌-->
-                    <header  style="width: 160px"><router-link id="gatheringpageTitle" to="/gathering">Gathering Board</router-link></header>
-                    <div v-for="gatheringBoardContent in gatheringBoardContents" :key="gatheringBoardContent.idx">
-                        <router-link :to="{ name: 'gatheringBoardDetail', params: {idx: gatheringBoardContent.idx }}" class="contents">{{ gatheringBoardContent.title }}></router-link>
-                        <hr v-if="index != freeBoardContents.length">
+                    <header  style="width: 160px"><router-link id="gatheringpageTitle" to="/gatheringboard">Gathering Board</router-link></header>
+                    <div v-for="(gatheringBoardContent, index) in gatheringBoardContents" :key="gatheringBoardContent.idx">
+                        <router-link :to="{ name: 'gatheringBoardDetail', params: {idx: gatheringBoardContent.idx }}" class="contents">{{ gatheringBoardContent.title }}</router-link>
+                        <span class="date">{{ subDate(gatheringBoardContent.date) }}</span>
+                        <hr v-if="index != gatheringBoardContents.length">
                     </div>
                 </div>
                 <div class="boardContents"> <!--cultural events 최신글 5개 보여줌-->
                     <header  style="width: 140px"><router-link id="culturalpageTitle" to="/cultural">Cultural Event</router-link></header>
-                    <div v-for="culturalEventsContent in culturalEventsContents" :key="culturalEventsContent.idx" >
+                    <div v-for="culturalEventsContent in culturalEventsContents" :key="culturalEventsContent.idx">
                         <router-link :to="{ name: 'culturalEventsContent', params: { idx: culturalEventsContent.idx }}" class="contents">{{ culturalEventsContent.title }}></router-link>
                         <hr v-if="index != freeBoardContents.length">
                     </div>
@@ -57,9 +58,9 @@ import axios from 'axios';
         this.sessionCheck = result.data.logined;
        const freeResult = await axios.get("/api/main/free");
         this.freeBoardContents = freeResult.data;
-      /*  const gatheringResult = await axios.get("/api/main/gathering");
+      const gatheringResult = await axios.get("/api/main/gathering");
         this.gatheringBoardContents = gatheringResult.data;
-        const culturalResult = await axios.get("/api/main/cultural");
+        /*const culturalResult = await axios.get("/api/main/cultural");
         this.culturalEventsContents = culturalResult.data;*/
         }, 
     }

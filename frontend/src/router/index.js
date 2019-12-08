@@ -12,8 +12,9 @@ import writeFreeBoard from '../view/WriteFreeBoard'
 import GatheringDetail from '../view/GatheringBoardDetail.vue'
 import EventDetail from '../view/CulturalEvnentDetail'
 import modifyFreeBoard from '../view/ModifyFreeBoard'
-
-
+import writeGatheringBoard from '../view/WriteGatheringBoard'
+import modifyGatheringBoard from '../view/ModifyGatheringBoard'
+import gatheringboardByCategory from '../view/GatheringBoardByCategory'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,7 +29,7 @@ const routes = [
     component: Free
   },
   {
-    path: '/gathering',
+    path: '/gatheringboard',
     name: 'gathering',
     component: Gathering
   },
@@ -71,6 +72,21 @@ const routes = [
     path : '/modifyfreeboard/:idx',
     name : 'modifyFreeBoard',
     component : modifyFreeBoard,
+  },
+  {
+    path : '/writegatheringboard',
+    name : 'writeGatheringBoard',
+    component :writeGatheringBoard,
+  },
+  {
+    path : '/modifygatheringboard/:idx',
+    name : 'modifyGatheringBoard',
+    component : modifyGatheringBoard,
+  },
+  {
+    path : '/gatheringboard/category/:option',
+    name : 'gatheringboardbycategory',
+    component : gatheringboardByCategory,
   },
   
 ]

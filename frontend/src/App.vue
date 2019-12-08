@@ -38,15 +38,24 @@
         </router-link>
         <hr/>
         <div id="dropdown">
-        <router-link to="/gathering">
+        <router-link to="/gatheringboard">
         <span id="dropbtn">Gathering Board</span>
         </router-link>
         <div id="dropdown-content">
-          <router-link to="/gathering">- major</router-link>
+          <router-link to="/gatheringboard/category/university">- University</router-link>
           <br/>
-          <router-link to="/gathering">- hihi</router-link>
+          <router-link to="/gatheringboard/category/study">- Study</router-link>
           <br/>
-          <router-link to="/gathering">- hello</router-link>
+          <router-link to="/gatheringboard/category/contestExhibit">- Contest Exhibit</router-link>
+          <br/>
+          <router-link to="/gatheringboard/category/culture">- Culture Event</router-link>
+          <br/>
+          <router-link to="/gatheringboard/category/volunteerWork">- Volunteer Work</router-link>
+          <br/>
+          <router-link to="/gatheringboard/category/play">- Play</router-link>
+          <br/>
+          <router-link to="/gatheringboard/category/etc">- Etc</router-link>
+          <br/>
         </div>
         </div>
         <hr/>
