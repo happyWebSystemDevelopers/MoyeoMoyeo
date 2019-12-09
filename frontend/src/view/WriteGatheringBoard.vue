@@ -86,10 +86,10 @@ export default {
             else {
 
                 if(this.imageURL != ''){
-                     axios.post("/api/gatheringboard/write",{title: this.title, url :imageURL, category : this.gatheringCategory,content : this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.post("/api/gatheringboard/write",{title: this.checkInput(this.title), url :imageURL, category : this.gatheringCategory,content : this.checkInput(this.content), userID : userid, writer: userNickName, email : useremail});
                 }
                 else {
-                     axios.post("/api/gatheringboard/write",{title: this.title, content :this.content, category : this.gatheringCategory,userID : userid, writer: userNickName, email : useremail});
+                     axios.post("/api/gatheringboard/write",{title: this.checkInput(this.title), content :this.checkInput(this.content), category : this.gatheringCategory,userID : userid, writer: userNickName, email : useremail});
                 }
             this.$router.push({
                 name: 'gathering'
@@ -120,7 +120,11 @@ export default {
             else {
                 alert("You can upload one Image file.");
             }
-        }
+        },
+        checkInput(input)//따옴표 check하는 코드
+        {
+            return String(input).replace('\'','\'\'')
+        },
     }
 
 }

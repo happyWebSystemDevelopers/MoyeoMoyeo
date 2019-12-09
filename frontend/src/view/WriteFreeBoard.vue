@@ -73,10 +73,10 @@ export default {
             else {
 
                 if(this.imageURL != ''){
-                     axios.post("/api/freeboard/write",{title: this.title, url :imageURL, content : this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.post("/api/freeboard/write",{title: this.checkInput(this.title), url :imageURL, content : this.checkInput(this.content), userID : userid, writer: userNickName, email : useremail});
                 }
                 else {
-                     axios.post("/api/freeboard/write",{title: this.title, content :this.content, userID : userid, writer: userNickName, email : useremail});
+                     axios.post("/api/freeboard/write",{title: this.checkInput(this.title), content :this.checkInput(this).content, userID : userid, writer: userNickName, email : useremail});
 
                 }
             this.$router.push({
@@ -108,7 +108,11 @@ export default {
             else {
                 alert("You can upload one Image file.");
             }
-        }
+        },
+        checkInput(input)//따옴표 check하는 코드
+        {
+            return String(input).replace('\'','\'\'')
+        },
     }
 
 }
