@@ -19,20 +19,25 @@
                         <hr v-if="index != gatheringBoardContents.length">
                     </div>
                 </div>
-                <div class="boardContents"> <!--cultural events 최신글 5개 보여줌-->
-                    <header  style="width: 140px"><router-link id="culturalpageTitle" to="/cultural">Cultural Event</router-link></header>
-                    <div v-for="culturalEventsContent in culturalEventsContents" :key="culturalEventsContent.idx">
-                        <router-link :to="{ name: 'culturalEventsContent', params: { idx: culturalEventsContent.idx }}" class="contents">{{ culturalEventsContent.title }}></router-link>
-                        <hr v-if="index != freeBoardContents.length">
-                    </div>
-                </div>
+                
+                
             </div>
         </ul>
 
         <ul id="ondDaySentence">
             <div>
-                <header>1il hwayhwa</header> <!--한국어 회화/사전 등 외부 api 연동할 곳. 배포 후에 추가하기-->
+                <header  style="width: 395px"><router-link id="culturalpageTitle" to="/cultural">Cultural Event</router-link></header>
                 <hr>
+                <div id="culturalStyle">
+                    <router-link :to ="{name : 'culturalEventDetail2', params: {idx : index}}"><img class="cboardImg" v-if="culturalBoard.imgurl" v-bind:src="checkUrl(culturalBoard.imgurl)" >
+                        <img class="cboardImg" v-else src ="images/loading.png" ></router-link>
+                    <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
+                    <span style ="color : #566270;">{{ culturalBoard.type }}</span>
+                    <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
+                    <span style ="color : #566270;">{{ culturalBoard.addr }}</span>
+                    <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
+                    <span style ="color : #566270;">{{ culturalBoard.name }}</span>
+                </div>
             </div>
         </ul>
     </section>
@@ -46,12 +51,22 @@ import axios from 'axios';
                 gatheringBoardContents : [],
                 culturalEventsContents : [],
                 sessionCheck : false,
+                culturalEvents: [],
+                culturalBoard:'',
+                index : '',
             }
         },
         methods : {
             subDate(date){
                 return date.substring(0,10);
             },
+            checkUrl(url){
+            if(String(url).match(/http/g).length==2)
+            {
+                return url.substring(26);
+            } 
+            return url;
+        }
         },
         async beforeCreate() {
         const result = await axios.get("/api/login");
@@ -62,6 +77,12 @@ import axios from 'axios';
         this.gatheringBoardContents = gatheringResult.data;
         /*const culturalResult = await axios.get("/api/main/cultural");
         this.culturalEventsContents = culturalResult.data;*/
+        const result2 = await axios.get("/api/cultural/data");
+        this.culturalEvents = result2.data;
+         var eventslength = this.culturalEvents.length;
+         var randomIndex = Math.floor(Math.random()*(eventslength));
+         this.culturalBoard = this.culturalEvents[randomIndex];
+         this.index = randomIndex;
         }, 
     }
 </script>
@@ -127,7 +148,21 @@ import axios from 'axios';
         font-size: 11px;
         float: right;
         line-height: 35px;
+    },
+    #culturalStyle{
+        display: inline-block;
+        border : 2px solid;
+        color : #E0E3DA;
+        border-radius : 5px;
+        height: 370px;
+        width: 260px;
+        margin-left : 120px;
+        margin-right : 85px;
+        margin-top : 30px;
+        transition: 0.5s;
+        text-align: center;
     }
+
 
 </style>
 
