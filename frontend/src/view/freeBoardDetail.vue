@@ -68,7 +68,7 @@
                 {
                     
                     var id = this.$route.params.idx
-                    await axios.post("/api/freeboard/"+id+"/comment",{boardID: id, content :this.content, userID : this.userid, writer: this.userNickName});
+                    await axios.post("/api/freeboard/"+id+"/comment",{boardID: id, content :this.checkInput(this.content), userID : this.userid, writer: this.userNickName});
                     this.content='';
                     const commentsResult = await axios.get("/api/freeboard/"+id+"/comment");
                     this.comments = commentsResult.data;
@@ -77,6 +77,10 @@
             subDate(date){
                
                 return  String(date).substring(0,10);
+            },
+            checkInput(input)//따옴표 check하는 코드
+            {
+                return String(input).replace('\'','\'\'')
             },
         },
         async beforeCreate() {

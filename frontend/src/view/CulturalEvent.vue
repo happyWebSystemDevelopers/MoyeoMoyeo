@@ -72,6 +72,7 @@ export default {
         checkUrl(url){
             if(String(url).match(/http/g).length==2)
             {
+                
                 return url.substring(26);
             } 
             return url;
