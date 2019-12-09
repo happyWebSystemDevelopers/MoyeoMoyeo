@@ -5,6 +5,7 @@
     <button v-if="viewMethod=='grid'" v-on:click="toLined" class="viewChange"><img class="btnImg" src="../assets/lined.png"></button> <!--그리드/라인 보기 방식 변경하는 버튼-->
     <button v-if="viewMethod=='lined'" v-on:click="toGrid" class="viewChange"><img class="btnImg" src="../assets/grided.png"></button>
     <hr align="left" style ="color : #dddfe6; border: 2px solid; margin-left: 120px; margin-right: 120px;"/>
+    
     <!--<div v-for = "board in freeBoards">-->
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
@@ -63,6 +64,13 @@ export default {
             viewMethod : 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
             modifyON : false,
             boarduser :'',
+           
+        }
+    },
+    watch: {
+     async '$route' () {
+       const result = await axios.get("/api/gatheringboard/category/" + this.$route.params.option);
+        this.gatheringBoards = result.data;
         }
     },
     methods: {
