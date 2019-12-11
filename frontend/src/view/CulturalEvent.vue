@@ -11,7 +11,7 @@
         <div v-if="viewMethod=='grid'" id="cgridBoard">
             <div id ="cboard" v-for ="(board, index) in culturalEvents" :key ="board.name">
                 <router-link :to ="{name : 'culturalEventDetail', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="checkUrl(board.imgurl)" >
-                    <img class="cboardImg" v-else src ="images/poster_4.jpg" ></router-link>
+                    <img class="cboardImg" v-else src ="images/cultural.jpg" ></router-link>
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.type }}</span>
                 <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>

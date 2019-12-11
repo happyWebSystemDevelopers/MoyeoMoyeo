@@ -12,11 +12,12 @@
         
          <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
          <div id="content">
-         <a v-bind:href ="data.pageurl" target ="_blank">{{data.pageurl}}</a>
+         <a v-bind:href ="data.pageurl" target ="_blank">{{checkUrlLength(data.pageurl)}}</a>
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
         {{data.addr}}
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
-        <img :src="checkUrl(data.imgurl)" style="height:400px; width:500px;"/>
+        <img class="Img" v-if="data.imgurl" :src="checkUrl(data.imgurl)" /> 
+        <img class="Img" v-else src="@/../public/images/cultural.jpg" />
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
         
             <div id="dataContent">
@@ -52,7 +53,11 @@
                 else return url;
             } 
             return url;
-        }
+        },
+        checkUrlLength(url) {
+                if (String(url).length > 100) return String(url).substring(0, 100) + "...";
+                else return url;
+            },
           
           
         },
@@ -81,6 +86,7 @@
     width: 75%;
     margin-top:10px;
     color: rgb(114, 113, 113);
+    
 
 
 }
@@ -112,6 +118,10 @@
     width: 82%;
    
 }
+.Img{
+    height:400px;
+    width:500px;
+}
 #cindex{
     color: #47b8e0;
    
@@ -135,7 +145,8 @@
     /*height: 500px;/*일단 크기 할당하고 시작할게요!!*/
     padding-bottom: 20%;
     margin-left: 9%;
-    margin-top: 3%
+    margin-top: 3%;
+    word-break: break-all;
 }
 #dataContent{
     word-break: break-all;
