@@ -12,7 +12,7 @@
 
             <div id ="board" v-for ="board in gatheringBoards" :key ="board.title">
                 <router-link :to="{name : 'gatheringBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.image" v-bind:src="board.image.data" >
-                    <img class="boardImg" v-else src ="/images/poster_4.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
+                    <img class="boardImg" v-else src ="/images/default.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
                 <br>

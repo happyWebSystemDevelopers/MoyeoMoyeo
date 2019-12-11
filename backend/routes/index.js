@@ -5,6 +5,7 @@ const convert = require('xml-js');//api 위치이동
 const session = require('express-session');
 var myDatabase = require('../db/db_conn');
 var connection = myDatabase.init();
+var crypto = require('crypto');
 
 
 
@@ -60,12 +61,15 @@ router.post("/api/login",function(req,res,err){
         id : req.body.id,
         pwd: req.body.pwd,
     };
-    connection.query(`SELECT identity,password,nickname FROM university_list.user_info WHERE identity='${userInfo.id}'`,
+    connection.query(`SELECT identity,password,nickname,salt FROM university_list.user_info WHERE identity='${userInfo.id}'`,
         function(err,results){
             if (results != ""){
             var rows = JSON.parse(JSON.stringify(results[0]));
-            console.log(rows.identity, rows.password);
-            if(rows.identity == userInfo.id && userInfo.pwd == rows.password){
+            
+            //let salt = Math.round((new Date().valueOf() * Math.random())) + "";
+            let hashPassword = crypto.createHash("sha512").update(userInfo.pwd + rows.salt).digest("hex");
+            console.log(rows.identity, rows.password, hashPassword);
+            if(rows.identity == userInfo.id && hashPassword == rows.password){
                 console.log("로그인 성공");
                 sess.logined = true;
                 sess.name = rows.identity;
@@ -102,9 +106,7 @@ router.delete("/api/logout",function(req,res,err) {
 /*router.get("/freeboards", function(req,res,err){ // 자유게시판 글 가져오는거
     //가져와서 글 객체 만든다음에 parse써서 하나하나 넣어주는 식으로 하자.
 });
-
 router.get("/freeboards/:idx", function(req,res,err) {
-
 }); //게시글 가져오는거 // 여기도 게시글 객체를 만들어서 */
 
 

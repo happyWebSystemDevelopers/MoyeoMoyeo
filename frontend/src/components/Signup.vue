@@ -7,7 +7,9 @@
             <div class="notice">they are all have to be written in english</div>
             <br>
             <div class="title">Full name</div>
-            <input type="text" v-model = "user.name" class = "inputText" style="width: 100%; height: 30px; border-radius: 4px;" required/>
+            <input type="text" v-if="hideNA" v-model = "user.name" class = "inputText" style="width: 100%; height: 30px; border-radius: 4px;" required/>
+            <input type="text" v-if="!hideNA" v-model="user.name" class = "inputText" style="width: 100%; height: 30px; border: 2px solid red;
+                 border-radius: 4px;" required/>
             <br>
             <div class="title">ID</div>
             <input type="text" v-if="okID" id="id" v-model="user.identity"  required/>
@@ -53,16 +55,16 @@
             <div class="notice" v-if="!hideEN" id="emailNotice">email has to be ex)XXXX@XXXX.XXX</div>
 
             <div class="title">University & Campus</div>
-            <select v-model="resultUniname" @change="onChange($event)" style="width: 50%; height: 30px; border-radius: 4px;" >
+            <select v-model="resultUniname" @change="onChange($event)" style="width: 50%; height: 30px; border-radius: 4px;"  required>
                 <option v-for="uname in uniname" :key="uname.name" v-bind:value="uname.name">{{uname.name}}</option>
 
             </select>
-            <select v-model="resultUniindex" @change="onChange1($event)" style="width: 50%; height: 30px; border-radius: 4px;">
+            <select v-model="resultUniindex" @change="onChange1($event)" style="width: 50%; height: 30px; border-radius: 4px;"  required>
                 <option  v-for="uindex in uniindex" :key="uindex.nameindex" v-bind:value="uindex.nameindex" >{{uindex.nameindex}}</option>
             </select>
 
             <div class="title">Major</div>
-            <select v-model="resultUnimajor" @change="onChange2($event)" style="width: 50%; height: 30px; border-radius: 4px;">
+            <select v-model="resultUnimajor" @change="onChange2($event)" style="width: 50%; height: 30px; border-radius: 4px;"  required>
                 <option  v-for="umajor in unimajor" :key="umajor.major" v-bind:value="umajor.major" >{{umajor.major}}</option>
             </select>
 
@@ -99,6 +101,7 @@
                 invalidCODE :true,
                 hideEN:true,
                 hidePW:true,
+                hideNA:true,
                 university:[{
                     name:'',
                     nameindex:'',
@@ -166,12 +169,29 @@
             onChange3(event){
                 this.user.country = event.target.value;
             },
-            btnClicked(){
+            async btnClicked(){
                 this.hideEN = true;
                 this.hidePW = true;
-                if((this.user.email.match(/@/g) || []).length !== 1) {
+                if (this.user.identity == '' ||
+                    this.user.name == ''||
+                    this.user.password == ''||
+                    this.user.universityName == '' ||
+                    this.user.universityIndex == ''||
+                    this.user.major == ''||
+                    this.user.email == ''||
+                    this.user.country == ''||
+                    this.user.nickname == ''){
+                        
+                        alert("Please Enter Your Information!")
+                    }
+                else if((this.user.email.match(/@/g) || []).length !== 1) {
                     this.user.email = '';
                     this.hideEN = false;
+                }
+                else if(this.user.name == '') {
+                    alert("Please your Full Name");
+                    this.hideNA = false;
+                    
                 }
                 else{
                     if(this.user.password.length<8){
@@ -179,7 +199,7 @@
                         this.hidePW = false;
                     }
                     else{
-                        axios.post('/api/universityList/users', {
+                        await axios.post('/api/universityList/users', {
                                 identity:this.user.identity,
                                 name:this.user.name,
                                 password:this.user.password,
@@ -204,34 +224,54 @@
                     this.registered = false;
                 }
             },
-            checkID(){
+            async checkID(){
                 this.okID = true;
                 var ID = this.user.identity;
-                var checkIDIndex = '';
-                axios.get('/api/universityList/checkID/'+ID)
+                if(ID == ''){
+                    alert("Please enter your ID");
+                    this.user.nickname = '';
+                    this.invalidID = true;
+                }
+                else { 
+                    var checkIDIndex = '';
+                await axios.get('/api/universityList/checkID/'+ID)
                     .then((response)=>{
                         checkIDIndex = response.data;
                     });
-                if(checkIDIndex.length == 0) {
+                if(checkIDIndex == true) {
                     this.invalidID = false;
                 }
                 else{
                     this.okID = false;
+                    alert("ID exists");
+                    this.user.identity = '';
+                }
                 }
             },
-            checkNickname(){
+            async checkNickname(){
                 this.okNickname = true;
                 var NICKNAME = this.user.nickname;
+                if (NICKNAME == '') {
+                    alert("Please enter your Nickname");
+                    this.user.nickname = '';
+                    this.invalidNickname = true;
+                }
+                else {
                 var checkNickIndex = '';
-                axios.get('/api/universityList/checkNICK/' + NICKNAME)
+                await axios.get('/api/universityList/checkNICK/' + NICKNAME)
                     .then((response)=>{
                         checkNickIndex = response.data;
                     });
-                if(checkNickIndex.length == 0){
+                if(checkNickIndex == true){
+                    
                     this.invalidNickname = false;
+                   
                 }
                 else{
                     this.okNickname = false;
+                    this.user.nickname = '';
+                    alert("Nickname exists");
+                }
                 }
             },
 

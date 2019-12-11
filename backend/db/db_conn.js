@@ -12,6 +12,7 @@ module.exports =( function () {
                 password: 'duddlsdud1',
 
 
+
          database: 'university_list'  
             })
         }

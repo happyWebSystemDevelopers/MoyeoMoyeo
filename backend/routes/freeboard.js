@@ -18,9 +18,9 @@ router.get("/",function(req,res,err){
     connection.query('select * from university_list.freeboard', function(err,rows,fields){
         if(!err){
 
-            var boardresult = JSON.parse(JSON.stringify(rows));
-            res.send(boardresult);
-            console.log(boardresult);
+           var boardresult = JSON.parse(JSON.stringify(rows));
+           res.send(boardresult);
+           // console.log(boardresult);
         }
         else{
             console.log(err);
@@ -100,6 +100,8 @@ router.post("/write",function(req,res,err){
     var content = body.content;
     var image = body.url;
     var email = body.email;
+    console.log(body);
+    console.log(body.content);
     const date = new Date();
     var currentDate = date.toFormat('YYYY-MM-DD');
     connection.query(`INSERT INTO university_list.freeboard (userID, title, writer, content,
