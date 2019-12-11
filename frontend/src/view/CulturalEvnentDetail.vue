@@ -12,16 +12,16 @@
         
          <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
          <div id="content">
-         {{data.pageurl}}
+         <a v-bind:href ="data.pageurl" target ="_blank">{{data.pageurl}}</a>
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
         {{data.addr}}
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
-        <img :src="data.imgurl" style="height:400px; width:500px;"/>
+        <img :src="checkUrl(data.imgurl)" style="height:400px; width:500px;"/>
         <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 0%; margin-right:9%; border-style: dashed;"/>
         
             <div id="dataContent">
                <div v-html="content"></div>
-                <!--이미지 url추가해야함-->
+                
             </div>
         </div>
       
@@ -42,6 +42,17 @@
             }
         },
         methods : {
+            checkUrl(url){
+            if(String(url).match(/http/g)!=null)
+            {
+                if(String(url).match(/http/g).length==2)
+                {
+                    return url.substring(26);
+                }
+                else return url;
+            } 
+            return url;
+        }
           
           
         },

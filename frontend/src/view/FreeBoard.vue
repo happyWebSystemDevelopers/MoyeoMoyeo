@@ -63,29 +63,9 @@
             getURL(board) {
                 //여기서 board blob to url 풀이
                 if(board!=null) {
-                    // var buffer = new Buffer(board.image,'binary');
-                    // return buffer.toString('base64');
-                    // let blob = new Blob(board.image.data, {type : 'image/png'});
-                    // var reader = new FileReader();
-                    // return reader.readAsDataURL(blob);
+                   
                     return '../assets/595811_1140x516.jpg';
-                    // reader.onload = function () {
-                    //     var b64 = reader.result.replace(/^data:.+;base64,/, '');
-                    //     console.log(b64); //-> "V2VsY29tZSB0byA8Yj5iYXNlNjQuZ3VydTwvYj4h"
-                    //     var html = atob(b64);
-                    //     console.log(html);
-                    // };
-                    // return reader.readAsDataURL(board.image);
-
-                    //  var base64data = '';
-                    //  var reader = new window.FileReader();
-                    //  reader.readAsDataURL(board.image);
-                    //  reader.onloadend = function() {
-                    //      base64data = reader.result;
-                    //      alert(base64data );
-                    //  };
-                    // var url =  base64data;
-                    //  return url;
+                
 
                 }
             },
