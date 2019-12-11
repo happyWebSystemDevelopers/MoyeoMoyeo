@@ -42,7 +42,6 @@
 <script>
 import axios from 'axios';
 import signup from './Signup';
-
 export default {
         name: 'login',
         data() {
@@ -51,12 +50,10 @@ export default {
                 userId:'',
                 password:'',
                 successLogin : false,
-
                 failLogin : false,
                 waitLogin : "",
                 loginCounter : 0,
                 Logintimes : true,
-
             }
         },
         components:{
@@ -146,6 +143,5 @@ button:hover{
     cursor: pointer;
     height: 30px;
     border-radius: 4px;
-
 }
 </style>

@@ -19,8 +19,11 @@
   "homepage": "https://github.com/happyWebSystemDevelopers/MoyeoMoyeo#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "connect-flash": "^0.1.1",
     "es6-promise": "^4.2.8",
     "express-session": "^1.17.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "router": "^1.3.3",
     "vuex": "^3.1.2",
