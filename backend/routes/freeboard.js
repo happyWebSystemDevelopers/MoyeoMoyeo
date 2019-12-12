@@ -119,7 +119,14 @@ router.get("/moreUserInfo/:userID", function(req,res,err){
         res.send(results[0]);
     })
 });
-
+router.get("/count",function(req,res,err) {
+    connection.query('select count(*) as totalcount from university_list.freeboard',
+        function (err, results) {
+            if (!err) {
+                res.json(results);
+            }
+        })
+});
 router.delete("/delete/:boardidx", function(req,res,err){
     var boardIndex = req.params.boardidx;
     connection.query(`delete from university_list.freeboard where idx = '${boardIndex}'`, function(err,results) {
