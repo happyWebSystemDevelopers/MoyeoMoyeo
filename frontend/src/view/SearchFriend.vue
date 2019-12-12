@@ -1,15 +1,15 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div id="searchBox">
         <div id="selectBox"> <!--검색 조건 묶어놓은 박스-->
-            <span>Name : </span><input v-model="selectedName" @change="onChange($event)" placeholder="Name" class="searchOpt1"> <!--이름으로 검색-->
-            <span>Nickname : </span><input v-model="selectedNickname" @change="onChange1($event)" placeholder="Nickname" class="searchOpt1"> <!--닉네임으로 검색-->
+            <span>Name : </span><input v-model="selectedName" @change="onChangeForName($event)" placeholder="Name" class="searchOpt1"> <!--이름으로 검색-->
+            <span>Nickname : </span><input v-model="selectedNickname" @change="onChangeForNickname($event)" placeholder="Nickname" class="searchOpt1"> <!--닉네임으로 검색-->
             <span>Country : </span>
-            <select v-model="selectedCountry" class="searchOpt2" @change="onChange2($event)"> <!--나라로 검색-->
+            <select v-model="selectedCountry" class="searchOpt2" @change="onChangeForCountry($event)"> <!--나라로 검색-->
                 <option selected>----</option>
                 <option v-for="country in countries" :key ="country.name" v-bind:value="country.name" selected>{{ country.name }}</option>
             </select>
             <span>University : </span>
-            <select v-model="selectedUniversity" class="searchOpt2" @change="onChange3($event)"> <!--대학교로 검색-->
+            <select v-model="selectedUniversity" class="searchOpt2" @change="onChangeForUniversity($event)"> <!--대학교로 검색-->
                 <option selected>----</option>
                 <option v-for="university in universities" :key ="university.name" v-bind:value="university.name" selected>{{ university.name }}</option>
             </select>
@@ -23,7 +23,7 @@
                 <option selected>----</option>
                 <option v-for="uindex in uniindex" :key ="uindex.nameindex" v-bind:value="uindex.nameindex" selected>{{uindex.nameindex}}</option>
             </select>
-            <select v-model="selectedMajor" class="searchOpt2" @change="onChange4($event)"> <!--대학, campus 선택 이후 전공으로 검색-->
+            <select v-model="selectedMajor" class="searchOpt2" @change="onChangeForMajor($event)"> <!--대학, campus 선택 이후 전공으로 검색-->
                 <option selected>----</option>
                 <option v-for="major in majors" :key ="major.major" v-bind:value="major.major" selected>{{ major.major }}</option>
             </select>
@@ -82,7 +82,20 @@
                 .then((response)=>{
                     this.universities = response.data;
                 });
-            //무조건 학교 고른 이후에 major 선택을 하게 한다.
+            //무조건 학교 고른 이후에 major 선택을 하게 한다.\
+
+            //  posting();
+            axios.post('/api/users/postByWhole', {
+                    name: this.selectedName,
+                    nickname: this.selectedNickname,
+                    country: this.selectedCountry,
+                    university: this.selectedUniversity,
+                    majorUniversityIndex: this.resultUniindex,
+                    major: this.selectedMajor,
+                }
+            ).then(response=>{
+                this.searchedPeople = response.data;
+            })
 
         },
         methods:{
@@ -98,8 +111,9 @@
                     })
             },
 
+
             //이름으로 검색 //대신 창에서 아무데나 눌러야 목록이뜸..
-            onChange(event){
+            onChangeForName(event){
                 this.searchedPeople = [{}];
                 this.selectedName = event.target.value;
                 var nickname = this.selectedNickname;
@@ -121,7 +135,7 @@
                     })
 
             },
-            onChange1(event){
+            onChangeForNickname(event){
                 this.searchedPeople = [{}];
                 this.selectedNickname= event.target.value;
                 var name = this.selectedName;
@@ -144,7 +158,7 @@
                     })
 
             },
-            onChange2(event){
+            onChangeForCountry(event){
                 this.searchedPeople = [{}];
                 this.selectedCountry = event.target.value;
                 var name  = this.selectedName;
@@ -168,7 +182,7 @@
                     })
 
             },
-            onChange3(event){
+            onChangeForUniversity(event){
                 this.searchedPeople = [{}];
                 var UNAME = event.target.value;
                 axios.get('/api/universityList/nameindex/'+UNAME)
@@ -197,7 +211,7 @@
                     })
 
             },
-            onChange4(event){
+            onChangeForMajor(event){
                 this.searchedPeople = [{}];
                 this.selectedMajor= event.target.value;
                 var name  = this.selectedName;

@@ -64,7 +64,8 @@ router.post("/api/login",function(req,res,err){
     connection.query(`SELECT identity,password,nickname,salt FROM university_list.user_info WHERE identity='${userInfo.id}'`,
         function(err,results){
             if (results != ""){
-            var rows = JSON.parse(JSON.stringify(results[0]));
+                console.log(results);
+                var rows = JSON.parse(JSON.stringify(results[0]));
             
             //let salt = Math.round((new Date().valueOf() * Math.random())) + "";
             let hashPassword = crypto.createHash("sha512").update(userInfo.pwd + rows.salt).digest("hex");
