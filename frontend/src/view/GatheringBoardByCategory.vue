@@ -10,9 +10,8 @@
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
 
-            <div id ="board" v-for ="board in gatheringBoards" :key ="board.title">
-                <router-link :to="{name : 'gatheringBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.image" v-bind:src="board.image.data" >
-                    <img class="boardImg" v-else src ="/images/default.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
+            <div id ="board" v-for ="board in paginatedData" :key ="board.title">
+                <router-link :to="{name : 'gatheringBoardDetail', params: {idx : board.idx}}"><img class="boardImg" src ="/images/default.jpg" >
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.writer }}</span>
                 <br>
@@ -30,6 +29,14 @@
                     <hr>
                     <button class = "moreService2" v-on:click="alertMoreInfo(board.userID)">More user Info</button>
                 </div>
+            </div>
+            <div class="btn-cover">
+                <button :disabled="pageNum === 0" @click="prevPage" class="page-btn" id="leftButton">
+                    <img src="../../public/images/left.jpg" style="width: 30px; height: 20px"/> </button>
+                <span class="page-count" style="color: #47b8e0; font-weight: bold; size: 30px;"> {{ pageNum + 1 }} / {{ pageCount }} </span>
+                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn" id="rightButton">
+                    <img src="../../public/images/right.jpg" style="width: 30px; height: 20px"/>
+                </button>
             </div>
         </div>
 
@@ -64,7 +71,14 @@ export default {
             viewMethod : 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
             modifyON : false,
             boarduser :'',
-           
+            pageNum:0,
+
+        }
+    }, props:{
+        pageSize:{
+            type:Number,
+            required:false,
+            default:3
         }
     },
     watch: {
@@ -110,6 +124,29 @@ export default {
             }
             else return false;
         },
+        nextPage(){
+            this.pageNum += 1;
+        },
+        prevPage(){
+            this.pageNum -= 1;
+        }
+    },
+    computed: {
+        totalNum() {
+            return this.gatheringBoards.length;
+        },
+        pageCount() {
+            let listLeng = this.gatheringBoards.length,
+                listSize = this.pageSize,
+                page = Math.floor(listLeng / listSize);
+            if (listLeng % listSize > 0) page += 1;
+            return page;
+        },
+        paginatedData() {
+            const start = this.pageNum * this.pageSize,
+                end = start + this.pageSize;
+            return this.gatheringBoards.slice(start, end);
+        }
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
         const result = await axios.get("/api/gatheringboard/category/" + this.$route.params.option);
@@ -192,5 +229,20 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     width : 200px;
     margin-left : 30px;
 }
-    
+
+#leftButton{
+    background-color : white;
+    border : 1.2px solid white;
+    border-radius: 7px;
+}
+#rightButton{
+    background-color : white;
+    border : 1.2px solid white;
+    border-radius: 7px;
+}
+.btn-cover{
+    margin-top: 30px;
+    text-align: center;
+    align-content: center;
+}
 </style>

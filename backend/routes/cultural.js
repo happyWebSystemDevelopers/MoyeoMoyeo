@@ -10,8 +10,8 @@ var rawData=[];
 var rawData2=[];
 
 
-const requestUrl2=`${host}${key}/xml/culturalEventInfo/1/30/`;
-const requestUrl1=`${host}${key}/xml/SearchCulturalFacilitiesDetailService/1/30/`;
+const requestUrl2=`${host}${key}/xml/culturalEventInfo/1/900/`;
+const requestUrl1=`${host}${key}/xml/SearchCulturalFacilitiesDetailService/1/900/`;
 
 var dataarr=[];
 
@@ -24,7 +24,7 @@ request.get(requestUrl2,(err,response,body)=>{//문화정보 api위치 이동하
     else{
 
         var result=body;
-        var jsonResult=convert.xml2json(result,{compact: true, spaces: 30});
+        var jsonResult=convert.xml2json(result,{compact: true, spaces: 900});
         var parsing=JSON.parse(jsonResult); 
         rawData2=parsing.culturalEventInfo.row
         for(let i=0;i<rawData2.length;i++)
@@ -62,7 +62,7 @@ request.get(requestUrl1,(err,response,body)=>{//문화정보 api위치 이동하
     else{
 
         var result=body;
-        var jsonResult=convert.xml2json(result,{compact: true, spaces: 30});
+        var jsonResult=convert.xml2json(result,{compact: true, spaces: 900});
         //
         
      var parsing=JSON.parse(jsonResult);

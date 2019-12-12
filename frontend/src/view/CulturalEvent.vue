@@ -9,7 +9,7 @@
     <!--<div v-for = "board in freeBoards">-->
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="cgridBoard">
-            <div id ="cboard" v-for ="(board, index) in culturalEvents" :key ="board.name">
+            <div id ="cboard" v-for ="(board, index) in paginatedData" :key ="board.name">
                 <router-link :to ="{name : 'culturalEventDetail', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="checkUrl(board.imgurl)" >
                     <img class="cboardImg" v-else src ="images/cultural.jpg" ></router-link>
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
@@ -19,6 +19,14 @@
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ checkBoardTitle(board.name) }}</span>
             </div>
+            <div class="btn-cover">
+                <button :disabled="pageNum === 0" @click="prevPage" class="leftButton">
+                    <img src="../../public/images/left.jpg" style="width: 30px; height: 20px"/> </button>
+                <span class="page-count" style="color: #47b8e0; font-weight: bold; size: 30px;"> {{ pageNum + 1 }} / {{ pageCount }} </span>
+                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="rightButton">
+                    <img src="../../public/images/right.jpg" style="width: 30px; height: 20px"/>
+                </button>
+            </div>
         </div>
 
         <div v-if="viewMethod=='lined'" id="linedBoard">
@@ -27,13 +35,21 @@
                 <th style="border-left: solid; border-left-color: #dddfe6; border-right: solid; border-right-color: #dddfe6;">Address</th>
                 <th>Fac Name</th>
                 <br>
-                <tr id ="clinedBoard" v-for ="(board, index) in culturalEvents" :key ="board.name">
+                <tr id ="clinedBoard" v-for ="(board, index) in  paginatedDataLined" :key ="board.name">
                     <td align="center" style ="color : #566270;">{{ board.type }}</td>
                     <td align="center" style ="color : #566270;">{{ board.addr }}</td>
                     <router-link :to ="{name : 'culturalEventDetail', params: {idx : index}}"><td align="left" style ="color : #566270; left: 640px; font-weight:bold;">{{ board.name }}</td></router-link>
                     <!--<hr style ="color : #E0E3DA; border : 1.2px dotted;"/>-->
                 </tr>
             </table>
+            <div class="btn-cover">
+                <button :disabled="pageNumLined === 0" @click="prevPageLined"  class="leftButton">
+                    <img src="../../public/images/left.jpg" style="width: 30px; height: 20px"/> </button>
+                <span class="page-count" style="color: #47b8e0; font-weight: bold; size: 30px;"> {{ pageNumLined + 1 }} / {{ pageCountLined }} </span>
+                <button :disabled="pageNumLined >= pageCountLined - 1" @click="nextPageLined"  class="rightButton">
+                    <img src="../../public/images/right.jpg" style="width: 30px; height: 20px"/>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -50,6 +66,21 @@ export default {
             culturalPlaces : [],
             culturalEvents : [],
             viewMethod : 'grid',
+            pageNum:0,
+            pageNumLined:0,
+
+        }
+    },
+    props:{
+        pageSize:{
+            type:Number,
+            required:false,
+            default:6
+        },
+        pageSizeLined:{
+            type:Number,
+            required:false,
+            default:12
         }
     },
     methods: {
@@ -74,8 +105,47 @@ export default {
                 if (title.length > 25) return title.substring(0, 32) + "...";
                 else return title;
             },
-       
-
+        nextPage(){
+            this.pageNum += 1;
+        },
+        prevPage(){
+            this.pageNum -= 1;
+        },
+        prevPageLined(){
+            this.pageNumLined -= 1;
+        },
+        nextPageLined(){
+            this.pageNumLined += 1;
+        }
+    },
+    computed:{
+        totalNum() {
+            return this.culturalEvents.length;
+        },
+        pageCount() {
+            let listLeng = this.culturalEvents.length,
+                listSize = this.pageSize,
+                page = Math.floor(listLeng / listSize);
+            if (listLeng % listSize > 0) page += 1;
+            return page;
+        },
+        paginatedData() {
+            const start = this.pageNum * this.pageSize,
+                end = start + this.pageSize;
+            return this.culturalEvents.slice(start, end);
+        },
+        pageCountLined(){
+            let listLeng = this.culturalEvents.length,
+                listSize = this.pageSizeLined,
+                page = Math.floor(listLeng / listSize);
+            if (listLeng % listSize > 0) page += 1;
+            return page;
+        },
+        paginatedDataLined(){
+            const start = this.pageNumLined * this.pageSizeLined,
+                end = start + this.pageSizeLined;
+            return this.culturalEvents.slice(start, end);
+        }
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
              const result = await axios.get("/api/cultural");
@@ -144,6 +214,21 @@ td{ /*lined 형식으로 게시판 보여줄 때 셀들(각 게시글의 작성�
     margin: 10px;
     height : 200px; 
     width: 240px;
+}
+.leftButton{
+    background-color : white;
+    border : 1.2px solid white;
+    border-radius: 7px;
+}
+.rightButton{
+    background-color : white;
+    border : 1.2px solid white;
+    border-radius: 7px;
+}
+.btn-cover{
+    margin-top: 30px;
+    text-align: center;
+    align-content: center;
 }
 
     
