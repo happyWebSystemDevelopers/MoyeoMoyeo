@@ -94,7 +94,6 @@ export default {
                  //inputImgSrc = fr.result;
                  newImg.src = fr.result;
                  imageURL = fr.result;
-                 alert(newImg.src);
                  newImg.classList.add("userUploadImg");
                  newImg.style.height = '200px';
                  newImg.style.width = '200px';

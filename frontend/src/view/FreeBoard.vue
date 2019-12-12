@@ -9,7 +9,7 @@
         <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="gridBoard"> <!--원래 나현이가 만들었던 그리드 형식-->
 
-            <div id ="board" v-for ="board in paginatedDate" :key ="board.title">
+            <div id ="board" v-for ="board in paginatedData" :key ="board.title">
                 <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.image" id="changedImage" src="images/595811_1140x516.jpg"/>
 
                     <img class="boardImg" v-else src ="images/default.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
@@ -30,10 +30,10 @@
                 </div>
             </div>
             <div class="btn-cover">
-                <button :disabled="pageNum === 0" @click="prevPage" class="page-btn" id="leftButton">
+                <button :disabled="pageNum === 0" @click="prevPage"  class="leftButton">
                     <img src="../../public/images/left.jpg" style="width: 30px; height: 20px"/> </button>
                 <span class="page-count" style="color: #47b8e0; font-weight: bold; size: 30px;"> {{ pageNum + 1 }} / {{ pageCount }} </span>
-                <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn" id="rightButton">
+                <button :disabled="pageNum >= pageCount - 1" @click="nextPage"  class="rightButton">
                     <img src="../../public/images/right.jpg" style="width: 30px; height: 20px"/>
                 </button>
             </div>
@@ -45,13 +45,21 @@
                 <th style="border-left: solid; border-left-color: #dddfe6; border-right: solid; border-right-color: #dddfe6;">E-mail</th>
                 <th>Title</th>
                 <br>
-                <tr class ="linedBoard" v-for ="board in freeBoards" :key ="board.idx">
+                <tr class ="linedBoard" v-for ="board in paginatedDataLined" :key ="board.idx">
                     <td align="center" style ="color : #566270;">{{ board.writer }}</td>
                     <td align="center" style ="color : #566270;">{{ board.email }}</td>
                     <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><td align="left" style ="color : #566270; left: 640px" :title="board.title">{{ checkBoardTitle(board.title) }}</td></router-link>
                     <!--<hr style ="color : #E0E3DA; border : 1.2px dotted;"/>-->
                 </tr>
             </table>
+            <div class="btn-cover">
+                <button :disabled="pageNumLined === 0" @click="prevPageLined"  class="leftButton">
+                    <img src="../../public/images/left.jpg" style="width: 30px; height: 20px"/> </button>
+                <span class="page-count" style="color: #47b8e0; font-weight: bold; size: 30px;"> {{ pageNumLined + 1 }} / {{ pageCountLined }} </span>
+                <button :disabled="pageNumLined >= pageCountLined - 1" @click="nextPageLined"  class="rightButton">
+                    <img src="../../public/images/right.jpg" style="width: 30px; height: 20px"/>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -66,8 +74,8 @@
                 viewMethod: 'grid', // 그리드or라인 어떤 방식으로 볼지 결정하는 플래그
                 modifyON: false,
                 boarduser: '',
-                pageC:'',
                 pageNum:0,
+                pageNumLined:0,
             }
         },
         props:{
@@ -75,6 +83,11 @@
                 type:Number,
                 required:false,
                 default:3
+            },
+            pageSizeLined:{
+                type:Number,
+                required:false,
+                default:12
             }
         },
         methods: {
@@ -122,15 +135,28 @@
             },
             prevPage(){
                 this.pageNum -= 1;
+            },
+            prevPageLined(){
+                this.pageNumLined -= 1;
+            },
+            nextPageLined(){
+                this.pageNumLined += 1;
             }
         },
         computed: {
             totalNum() {
-                return this.pageC;
+                return this.freeBoards.length;
             },
             pageCount() {
-                let listLeng = this.pageC,
+                let listLeng = this.freeBoards.length,
                     listSize = this.pageSize,
+                    page = Math.floor(listLeng / listSize);
+                if (listLeng % listSize > 0) page += 1;
+                return page;
+            },
+            pageCountLined(){
+                let listLeng = this.freeBoards.length,
+                    listSize = this.pageSizeLined,
                     page = Math.floor(listLeng / listSize);
                 if (listLeng % listSize > 0) page += 1;
                 return page;
@@ -139,14 +165,17 @@
                 const start = this.pageNum * this.pageSize,
                     end = start + this.pageSize;
                 return this.freeBoards.slice(start, end);
+            },
+            paginatedDataLined(){
+                const start = this.pageNumLined * this.pageSizeLined,
+                    end = start + this.pageSizeLined;
+                return this.freeBoards.slice(start, end);
             }
         },
         async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
             const result = await axios.get("/api/freeboard");
             this.freeBoards = result.data;
-            const pagecount = await axios.get("/api/freeboard/count");
             //전체 free board 개수 구하기
-            this.pageC = pagecount.data[0].totalcount;
             const loginresult = await axios.get("/api/login");
             this.sessionCheck = loginresult.data.logined;
             this.boarduser = loginresult.data.name;//로그인한 유저 아이디
@@ -231,12 +260,12 @@
         width : 200px;
         margin:auto;
     }
-    #leftButton{
+    .leftButton{
         background-color : white;
         border : 1.2px solid white;
         border-radius: 7px;
     }
-    #rightButton{
+    .rightButton{
         background-color : white;
         border : 1.2px solid white;
         border-radius: 7px;
