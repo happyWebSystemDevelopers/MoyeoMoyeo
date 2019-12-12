@@ -11,8 +11,9 @@
 
             <div id ="board" v-for ="board in freeBoards" :key ="board.title">
                 <router-link :to="{name : 'freeBoardDetail', params: {idx : board.idx}}"><img class="boardImg" v-if="board.image" id="changedImage" src="images/595811_1140x516.jpg"/>
+
                     <img class="boardImg" v-else src ="images/default.jpg"> <!--default를 겨울왕국이미지로 했는데 이거 나중에 수정해야함-->
-                    <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
+                   <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                     <span style ="color : #566270;">{{ board.writer }}</span>
                     <br>
                     <span style ="color : #566270;">{{ board.email }}</span>
@@ -63,29 +64,9 @@
             getURL(board) {
                 //여기서 board blob to url 풀이
                 if(board!=null) {
-                    // var buffer = new Buffer(board.image,'binary');
-                    // return buffer.toString('base64');
-                    // let blob = new Blob(board.image.data, {type : 'image/png'});
-                    // var reader = new FileReader();
-                    // return reader.readAsDataURL(blob);
+                   
                     return '../assets/595811_1140x516.jpg';
-                    // reader.onload = function () {
-                    //     var b64 = reader.result.replace(/^data:.+;base64,/, '');
-                    //     console.log(b64); //-> "V2VsY29tZSB0byA8Yj5iYXNlNjQuZ3VydTwvYj4h"
-                    //     var html = atob(b64);
-                    //     console.log(html);
-                    // };
-                    // return reader.readAsDataURL(board.image);
-
-                    //  var base64data = '';
-                    //  var reader = new window.FileReader();
-                    //  reader.readAsDataURL(board.image);
-                    //  reader.onloadend = function() {
-                    //      base64data = reader.result;
-                    //      alert(base64data );
-                    //  };
-                    // var url =  base64data;
-                    //  return url;
+                
 
                 }
             },

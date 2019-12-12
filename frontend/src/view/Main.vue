@@ -77,7 +77,7 @@ import axios from 'axios';
         this.gatheringBoardContents = gatheringResult.data;
         /*const culturalResult = await axios.get("/api/main/cultural");
         this.culturalEventsContents = culturalResult.data;*/
-        const result2 = await axios.get("/api/cultural/data");
+        const result2 = await axios.get("/api/cultural");
         this.culturalEvents = result2.data;
          var eventslength = this.culturalEvents.length;
          var randomIndex = Math.floor(Math.random()*(eventslength));
@@ -148,7 +148,7 @@ import axios from 'axios';
         font-size: 11px;
         float: right;
         line-height: 35px;
-    },
+    }
     #culturalStyle{
         display: inline-block;
         border : 2px solid;

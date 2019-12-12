@@ -10,24 +10,14 @@
     <!-- 여기에다가 그 router-view를 두고 이미지에 흠...-->
         <div v-if="viewMethod=='grid'" id="cgridBoard">
             <div id ="cboard" v-for ="(board, index) in culturalEvents" :key ="board.name">
-                <router-link :to ="{name : 'culturalEventDetail2', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="checkUrl(board.imgurl)" >
-                    <img class="cboardImg" v-else src ="images/poster_4.jpg" ></router-link>
+                <router-link :to ="{name : 'culturalEventDetail', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="checkUrl(board.imgurl)" >
+                    <img class="cboardImg" v-else src ="images/cultural.jpg" ></router-link>
                 <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
                 <span style ="color : #566270;">{{ board.type }}</span>
                 <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
                 <span style ="color : #566270;">{{ board.addr }}</span>
                 <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
-                <span style ="color : #566270;">{{ board.name }}</span>
-            </div>
-            <div id ="cboard" v-for ="(board, index) in culturalPlaces" :key ="board.name">
-                <router-link :to ="{name : 'culturalEventDetail', params: {idx : index}}"><img class="cboardImg" v-if="board.imgurl" v-bind:src="board.imgurl" >
-                    <img class="cboardImg" v-else src ="images/poster_4.jpg" ></router-link>
-                <hr style ="boder-style : dotted; color : #E0E3DA; border : 1.2px solid;"/>
-                <span style ="color : #566270;">{{ board.type }}</span>
-                <hr align="left" style ="color : #dddfe6; border: 1px solid; margin-left: 7%; margin-right:7%; border-style: dashed;"/>
-                <span style ="color : #566270;">{{ board.addr }}</span>
-                <hr style ="boder-style : dotted; color: #E0E3DA; border : 1.2px solid;"/>
-                <span style ="color : #566270;">{{ board.name }}</span>
+                <span style ="color : #566270;">{{ checkBoardTitle(board.name) }}</span>
             </div>
         </div>
 
@@ -70,21 +60,27 @@ export default {
             this.viewMethod = 'grid';
         },
         checkUrl(url){
-            if(String(url).match(/http/g).length==2)
+            if(String(url).match(/http/g)!=null)
             {
-                
-                return url.substring(26);
+                if(String(url).match(/http/g).length==2)
+                {
+                    return url.substring(26);
+                }
+                else return url;
             } 
             return url;
-        }
+        },
+         checkBoardTitle(title) {
+                if (title.length > 25) return title.substring(0, 32) + "...";
+                else return title;
+            },
        
 
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.
              const result = await axios.get("/api/cultural");
-            this.culturalPlaces = result.data;
-            const result2 = await axios.get("/api/cultural/data");
-            this.culturalEvents = result2.data;
+            this.culturalEvents = result.data;
+           
            // alert(this.culturalEvents[0])
 
     }
@@ -111,6 +107,7 @@ export default {
     margin-top : 30px;
     transition: 0.5s;
     text-align: center;
+    word-break: break-all;
      /* 이거 글 너무 달라붙어서 좀 띄운 역할*/
 }
 #cboard:hover{
