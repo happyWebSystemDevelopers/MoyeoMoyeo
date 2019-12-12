@@ -39,15 +39,6 @@ router.get("/gathering", function(req, res, next) {
     })
    
 });
-/*
-router.get("/cultural", function(req, res, next) {
-    connection.query('SELECT title FROM university_list.cultural_table', function(err, datas){
-        if(err) console.log("free board err!");
-        else{
-            res.send(datas);
-        }
-    })
-});
-*/
+
 
 module.exports = router;
