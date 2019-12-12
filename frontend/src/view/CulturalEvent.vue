@@ -77,7 +77,7 @@ export default {
             } 
             return url;
         }
-       
+
 
     },
     async beforeCreate() { //백엔드에서 freeboard 글 가져오는 rest.

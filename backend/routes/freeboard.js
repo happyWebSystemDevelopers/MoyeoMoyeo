@@ -27,6 +27,14 @@ router.get("/",function(req,res,err){
         }
     })
 });
+router.get("/count",function(req,res,err) {
+    connection.query('select count(*) as totalcount from university_list.freeboard',
+        function (err, results) {
+            if (!err) {
+                res.json(results);
+            }
+        })
+});
 
 router.get("/:idx",function(req,res,err){
     var id= req.params.idx;
