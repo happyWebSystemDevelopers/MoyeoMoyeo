@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var crypto = require('crypto');
 var universityName = [{}];
 var universityIndex = [{}];
 var universityMajor = [{}];
 var countryName = [{}];
 var specificUniName = {};
-var validIdentity = {};
-var validNickname = {};
+//var validIdentity = {};
+//var validNickname = {};
 
 /* GET users listing. */
 var myDataBase=require('../db/db_conn.js');
@@ -40,19 +41,34 @@ router.get('/nameindex/:UNAME',function(req,res,next){
         });
 });
 router.get('/checkID/:ID',function(req,res,next){
-    connection.query(`SELECT identity FROM university_list.country_name WHERE identity='${req.params.ID}'`,
+    connection.query(`SELECT identity FROM university_list.user_info WHERE identity='${req.params.ID}'`,
         function(err,results){
-            validIdentity = results;
-            res.send(validIdentity);
+            console.log(err);
+            if(results[0] == null){
+                res.send("true");
+            }else {
+                res.send("false");
+            }
+            //validIdentity = results[0];
+            //console.log(validIdentity.identity);
+            //res.send(validIdentity.identity);
         });
 });
 router.get('/checkNICK/:NICKNAME',function(req,res,next){
-    connection.query(`SELECT identity FROM university_list.country_name WHERE identity='${req.params.NICKNAME}'`,
+    connection.query(`SELECT nickname FROM university_list.user_info WHERE nickname='${req.params.NICKNAME}'`,
         function(err,results){
-            validNickname = results;
-            res.send(validNickname);
+            if(results[0] == null){
+                console.log("hh");
+                res.send("true");
+            }else {
+                res.send("false");
+            }
+            //validNickname = results[0];
+            //console.log(validNickname.nickname);
+            //res.send(validNickname.nickname);
         });
 });
+
 router.get('/major/:UNAME/:UNAMEINDEX',function(req,res,next){
 
     connection.query(`SELECT major FROM university_list.uni_table WHERE name='${req.params.UNAME}' AND nameindex = '${req.params.UNAMEINDEX}'`,
@@ -74,16 +90,18 @@ router.post('/users',function(req,res,next){
     var identity = req.body.identity;
     var name = req.body.name;
     var password = req.body.password;
+    let salt = Math.round((new Date().valueOf() * Math.random())) + "";
+    let hashPassword = crypto.createHash("sha512").update(password + salt).digest("hex");
     var universityName = req.body.universityName;
     var universityIndex = req.body.universityIndex;
     var major = req.body.major;
     var email = req.body.email;
     var country = req.body.country;
     var nickname = req.body.nickname;
-    console.log(identity);
-    connection.query(`INSERT INTO university_list.user_info (identity,name,password,
+    //console.log(identity, hashPassword);
+    connection.query(`INSERT INTO university_list.user_info (identity,name,salt,password,
     universityName, universityIndex, major, email, country, nickname) VALUES ('${identity}',
-    '${name}','${password}', '${universityName}', '${universityIndex}',
+    '${name}','${salt}','${hashPassword}', '${universityName}', '${universityIndex}',
     '${major}', '${email}','${country}', '${nickname}')`,
         function(err,results){
 
