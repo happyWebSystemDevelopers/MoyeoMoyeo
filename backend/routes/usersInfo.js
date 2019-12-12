@@ -40,195 +40,24 @@ router.post('/postByWhole', function(req,res,next){
     var university = body.university;
     var major = body.major;
     var universityIM = body.majorUniversityIndex;
-    //하드코딩시자아악
-    //다 들어있는 경우
-    if(name.length!=0 && nickname.length!=0 && country.length!=0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}' && country = '${country}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            });
-    }
-    //한개씩 안쓴경우
-    else if(name.length==0 && nickname.length!=0 && country.length!=0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE nickname = '${nickname}' && country = '${country}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            });
-    }
-    else if(name.length!=0 && nickname.length==0 && country.length!=0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && country = '${country}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    else if(name.length!=0 && nickname.length!=0 && country.length==0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
+    var list = [name, nickname, country, university, major, universityIM];
 
-    //예외
-    //university 선택 안하면 자연스럽게 major 도 선택안한걸루한다
-    else if(name.length!=0 && nickname.length!=0 && country.length!=0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}' && country = '${country}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
+    for(let i = 0; i < list.length; i++){
+        if(list[i].length == 0 || list[i] == '----'){
+            list[i] = 'is not null';
+        }
+        else{
+            list[i] = '= ' + '\''+list[i]+'\'';
+        }
     }
+    console.log(list);
+    console.log(`SELECT * FROM university_list.user_info WHERE name ${list[0]} && nickname ${list[1]} && country ${list[2]} && universityName ${list[3]} && universityIndex ${list[4]} && major ${list[5]}`);
 
-    else if(name.length!=0 && nickname.length!=0 && country.length!=0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}' && country = '${country}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    //두개씩 안쓴경우
-    else if(name.length==0 && nickname.length==0 && country.length!=0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE country = '${country}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    else if(name.length==0 && nickname.length!=0 && country.length==0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE nickname = '${nickname}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    //예외
-    //university 선택 안해서 major 선택 안함
-    else if(name.length==0 && nickname.length!=0 && country.length!=0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE nickname = '${nickname}' && country = '${country}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    else if(name.length==0 && nickname.length!=0 && country.length!=0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}' && country = '${country}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    else if(name.length!=0 && nickname.length==0 && country.length==0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    //예외
-    //university 선택 안해서 major 선택안함
-    else if(name.length!=0 && nickname.length==0 && country.length!=0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && country = '${country}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    else if(name.length!=0 && nickname.length==0 && country.length!=0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && country = '${country}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    //예외
-    //university 선택 안해서 major 선택 안함
-    else if(name.length!=0 && nickname.length!=0 && country.length==0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    else if(name.length!=0 && nickname.length!=0 && country.length==0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && nickname = '${nickname}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    //3개 체크 안했을때 꼬우우
-    else if(name.length==0 & nickname.length==0 && country.length==0 && university.length!=0 && major.length!=0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE universityName = '${university}' && universityIndex = '${universityIM}' && major = '${major}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    //예외
-
-    else if(name.length==0 & nickname.length==0 && country.length!=0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE country = '${country}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    else if(name.length==0 & nickname.length==0 && country.length!=0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE country = '${country}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    //예외
-
-    else if(name.length==0 & nickname.length!=0 && country.length==0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE nickname = '${nickname}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    else if(name.length==0 & nickname.length!=0 && country.length==0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE nickname = '${nickname}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    //예외
-    else if(name.length!=0 & nickname.length==0 && country.length==0 && university.length==0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-    else if(name.length!=0 & nickname.length==0 && country.length==0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE name='${name}' && universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
-
-    //4개 선택 안했을때//1개 선택
-    else if(name.length==0 & nickname.length==0 && country.length==0 && university.length!=0 && major.length==0){
-        connection.query(`SELECT * FROM university_list.user_info WHERE universityName = '${university}'`,
-            function (err, results) {
-                People= Array.from(new Set(results));
-                res.json(People);
-            })
-    }
+    connection.query(`SELECT * FROM university_list.user_info WHERE name ${list[0]} && nickname ${list[1]} && country ${list[2]} && universityName ${list[3]} && universityIndex ${list[4]} && major ${list[5]}`,
+        function(err, results){
+            People= Array.from(new Set(results));
+            res.json(People);
+    });
 
 });
 module.exports = router;

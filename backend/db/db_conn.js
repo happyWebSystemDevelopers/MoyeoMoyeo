@@ -9,7 +9,7 @@ module.exports =( function () {
                 port: 3306,
                 user: 'root',   
 
-                password: 'sk13465212!',
+                password: 'btbt6594',
 
 
          database: 'university_list'  
