@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/happyWebSystemDevelopers/MoyeoMoyeo#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "connect-flash": "^0.1.1",
     "es6-promise": "^4.2.8",
     "express-session": "^1.17.0",
